@@ -1,5 +1,11 @@
-package com.product;
+package com.product.api.controller;
 
+import com.product.api.entity.Category;
+import com.product.api.service.SvcCategory;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -12,21 +18,22 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 /**
  * Controlador para producto
- * @assignment Práctica 2
  * 
  * @author Isaac Robledo R
  * @author Alejandro Sánchez E
- * @version JDK 21 LTS
+ * @version 0.3.0
  * @docsTag
+ * @beta
  */
 @Tag(name = "Product", description = "Endpoints para productos")
 @RestController
 public class CtrlProduct {
     
     /**
-     * Manejador de Categorías.
+     * Clase de servicio para categorías.
      */
-    CategoryManager categoryManager = new CategoryManager();
+    @Autowired
+    SvcCategory svc;
 
     /**
      * Constructor de la clase
@@ -44,21 +51,11 @@ public class CtrlProduct {
     @Operation(summary = "Obtiene todas las categorías", description = "Regresa las categorías registradas")
     @ApiResponse(responseCode = "200", description = "Operación realizada con éxito", 
                     content = { @Content(
-                        array = @ArraySchema(schema = @Schema(implementation = CategoryEntity.class)),
+                        array = @ArraySchema(schema = @Schema(implementation = Category.class)),
                         mediaType = "aplication/json")
                     })
     @GetMapping("/category")
-    public CategoryEntity[] getCategories() {
-    // public ResponseEntity<CategoryEntity[]> getCategories() {
-        // Recurso no persistente
-        categoryManager.createCategory(0, "Mexicana", "mx");
-        categoryManager.createCategory(1, "Italiana", "it");
-        categoryManager.createCategory(2, "Japonesa", "jp");
-        categoryManager.createCategory(4, "Brasileña", "br");
-        categoryManager.createCategory(5, "Turca", "tr");
-        categoryManager.createCategory(3, "Americana", "us");
-
-        return categoryManager.getCategoriesArray();
-        //  return new ResponseEntity<>(categoryManager.getCategoriesArray(), HttpStatus.OK);
+    public List<Category> getCategories() {
+        return svc.getActiveCategories();
     }
 }
