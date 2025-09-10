@@ -46,6 +46,11 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>2.8.5</version>
+        </dependency>
 	</dependencies>
 
 	<build>
@@ -54,6 +59,69 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+
+			<plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.11.3</version>
+                <configuration>
+                    <doctitle>API</doctitle>
+                    <windowtitle>API docs</windowtitle>
+                    <tags>
+                        <tag>
+                            <name>assignment</name>
+                            <placement>t</placement>
+                            <head>Entrega:</head>
+                        </tag>
+                        <tag>
+                            <name>mapeo</name>
+                            <placement>m</placement>
+                            <head>Map:</head>
+                        </tag>
+                        <tag>
+                            <name>metodoHTTP</name>
+                            <placement>m</placement>
+                            <head>Método HTTP:</head>
+                        </tag>
+                        <tag>
+                            <name>estado</name>
+                            <placement>m</placement>
+                            <head>Estado de respuesta HTTP:</head>
+                        </tag>
+                        <tag>
+                            <name>inputBody</name>
+                            <placement>m</placement>
+                            <head>Cuerpo de entrada:</head>
+                        </tag>
+                        <tag>
+                            <name>outputBody</name>
+                            <placement>m</placement>
+                            <head>Cuerpo de salida:</head>
+                        </tag>
+                        <tag>
+                            <name>docsTag</name>
+                            <placement>t</placement>
+                            <head>Tag:</head>
+                        </tag>
+                        <tag>
+                            <name>alpha</name>
+                            <placement>a</placement>
+                            <head>Alpha</head>
+                        </tag>
+                        <tag>
+                            <name>beta</name>
+                            <placement>a</placement>
+                            <head>Beta</head>
+                        </tag>
+                        <tag>
+                            <name>persistente</name>
+                            <placement>a</placement>
+                            <head>Información persistente</head>
+                        </tag>
+                    </tags>
+                </configuration>
+            </plugin>
+
 		</plugins>
 	</build>
 
