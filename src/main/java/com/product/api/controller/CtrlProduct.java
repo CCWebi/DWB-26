@@ -6,6 +6,7 @@ import com.product.api.service.SvcCategory;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,7 +22,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
  * 
  * @author Isaac Robledo R
  * @author Alejandro Sánchez E
- * @version 0.3.0
+ * @version 0.4.0
  * @docsTag
  * @beta
  */
@@ -55,7 +56,7 @@ public class CtrlProduct {
                         mediaType = "aplication/json")
                     })
     @GetMapping("/category")
-    public List<Category> getCategories() {
+    public ResponseEntity<List<Category>> getCategories() {
         return svc.getActiveCategories();
     }
 }
