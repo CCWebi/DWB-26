@@ -6,8 +6,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 /**
- * Clase que representa una categoría como entidad.
- * 
+ * Clase que representa una categoría como entidad
  * @author Isaac Robledo R
  * @author Alejandro Sánchez E
  * @version 0.3.0
@@ -50,7 +49,7 @@ public class Category {
 
     /**
      * Constructor de la clase Category.
-     * <code>status</code> por defecto es 1.
+     * <code>status</code> por defecto es 1
      * @param category_id Identificador de la categoría
      * @param category Nombre de la categoría
      * @param tag Etiqueta de la categoría

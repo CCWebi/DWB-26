@@ -10,7 +10,6 @@ import com.product.api.entity.Category;
 
 /**
  * Interfaz de repositorio para categorías en la DB
- * 
  * @author Isaac Robledo R
  * @author Alejandro Sánchez E
  * @version 0.3.0

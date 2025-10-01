@@ -2,10 +2,14 @@ package com.product.api.service;
 
 import com.product.api.entity.Category;
 import com.product.api.repository.RepoCategory;
+import com.product.exception.DBAccessException;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 /**
@@ -13,7 +17,7 @@ import org.springframework.stereotype.Service;
  * 
  * @author Isaac Robledo R
  * @author Alejandro Sánchez E
- * @version 0.3.0
+ * @version 0.4.0
  * @beta
  */
 @Service
@@ -26,13 +30,13 @@ public class SvcCategoryImp implements SvcCategory {
     private RepoCategory repo;
 
     /**
-     * Constructor de cadenas mutables
+     * Constructor de cadenas mutables.
      * Ayuda con la eficiencia al escribir varios caracteres
      */
     private StringBuilder sb;
 
     /**
-     * Constructor del gestor de categorías.
+     * Constructor del gestor de categorías
      */
     public SvcCategoryImp() {
         this.sb = new StringBuilder();
@@ -40,11 +44,11 @@ public class SvcCategoryImp implements SvcCategory {
 
     /**
      * Imprime las categorías activas (status 1).
-     * Si no hay categorías activas, muestra un mensaje indicando que no existen.
+     * Si no hay categorías activas, muestra un mensaje indicando que no existen
      */
     public void printActiveCategories() {
         sb.setLength(0);
-        List<Category> activeCategories = getActiveCategories();
+        List<Category> activeCategories = getActiveCategories().getBody();
         
         if (activeCategories.isEmpty())
             System.out.println("No existen categorías registradas");
@@ -61,29 +65,39 @@ public class SvcCategoryImp implements SvcCategory {
     }
 
     /**
-     * Regresa una lista con todas categorías
-     * @return Una lista con todas categorías
+     * Regresa una respuesta con la lista con todas categorías
+     * @return Una respuesta con la lista con todas categorías
+     * @estado 200 - Operación realizada con éxito
      */
     @Override
-    public List<Category> getCategories() {
-        return repo.getCategories();
+    public ResponseEntity<List<Category>> getCategories() {
+        try {
+            return new ResponseEntity<List<Category>>(repo.getCategories(), HttpStatus.OK);
+        } catch (DataAccessException e) {
+            throw new DBAccessException(e);
+        }
     }
     
     /**
-     * Regresa una lista con las categorías activas
-     * @return Una lista con las categorías activas
+     * Regresa una respuesta con la lista con las categorías activas
+     * @return Una respuesta con la lista con las categorías activas
+     * @estado 200 - Operación realizada con éxito
      */
     @Override
-    public List<Category> getActiveCategories() {
-        return repo.getActiveCategories();
+    public ResponseEntity<List<Category>> getActiveCategories() {
+        try {
+            return new ResponseEntity<List<Category>>(repo.getActiveCategories(), HttpStatus.OK);
+        } catch (DataAccessException e) {
+            throw new DBAccessException(e);
+        }
     }
-    
+
     /**
      * Regresa un arreglo con todas categorías
      * @return Un arreglo con todas categorías
      */
     public Category[] getCategoriesArray() {
-        return getCategories().toArray(new Category[0]);
+        return getCategories().getBody().toArray(new Category[0]);
     }
 
     /**
@@ -91,16 +105,16 @@ public class SvcCategoryImp implements SvcCategory {
      * @return Un arreglo con las categorías activas
      */
     public Category[] getActiveCategoriesArray() {
-        return getActiveCategories().toArray(new Category[0]);
+        return getActiveCategories().getBody().toArray(new Category[0]);
     }
 
     /**
      * Crea una Category.
-     * El atributo <code>status</code>, por defecto es 1.
+     * El atributo <code>status</code>, por defecto es 1
      * @param category_id Identificador de la categoría
      * @param category Nombre de la categoría
      * @param tag Etiqueta de la categoría
-     * @return <code>true</code> si fue creado con éxito, <code>false</code> si ocurrió un error.
+     * @return <code>true</code> si fue creado con éxito, <code>false</code> si ocurrió un error
      * @throws IllegalArgumentException si los parámetros son inválidos
      */
     public boolean createCategory(Integer category_id, String category, String tag) {
@@ -108,7 +122,7 @@ public class SvcCategoryImp implements SvcCategory {
     }
 
     /**
-     * Crea una nueva categoría.
+     * Crea una nueva categoría
      * @param newCategory La nueva categoría a crear
      * @return true si la categoría fue creada exitosamente, false si ya existe o es nula
      */
@@ -117,26 +131,26 @@ public class SvcCategoryImp implements SvcCategory {
             return false;
         }
         // Verificar unicidad de category_id, category y tag
-        for (Category existing : getCategories()) {
+        for (Category existing : getCategories().getBody()) {
             if (existing.getCategoryId().equals(newCategory.getCategoryId()) ||
                 existing.getCategory().equalsIgnoreCase(newCategory.getCategory()) ||
                 existing.getTag().equalsIgnoreCase(newCategory.getTag())) {
                 return false;
             }
         }
-        getCategories().add(newCategory);
+        getCategories().getBody().add(newCategory);
         return true;
     }
 
     /**
-     * Elimina una categoría por su ID.
+     * Elimina una categoría por su ID
      * @param categoryId El ID de la categoría a eliminar
      * @return true si la categoría fue eliminada exitosamente, false si no existe o el ID es nulo
      */
     public boolean deleteCategory(Integer categoryId) {
         if (categoryId == null)
             return false;
-        for (Category category : getCategories()) {
+        for (Category category : getCategories().getBody()) {
             if (category.getCategoryId().equals(categoryId)) {
                 if (category.getStatus() == 0)
                     throw new IllegalStateException("El intento es fallido, pues la categoría está inactiva");
@@ -148,12 +162,12 @@ public class SvcCategoryImp implements SvcCategory {
     }
 
     /**
-     * Verifica si un ID es único.
+     * Verifica si un ID es único
      * @param id El ID a verificar
      * @return true si es único, false si ya existe
      */
     private boolean isIdUnique(Integer id) {
-        for (Category category : getCategories()) {
+        for (Category category : getCategories().getBody()) {
             if (category.getCategoryId().equals(id))
                 return false;
         }
@@ -161,12 +175,12 @@ public class SvcCategoryImp implements SvcCategory {
     }
 
     /**
-     * Verifica si un nombre de categoría es único.
+     * Verifica si un nombre de categoría es único
      * @param category El nombre a verificar
      * @return true si es único, false si ya existe
      */
     private boolean isCategoryUnique(String category) {
-        for (Category existing : getCategories()) {
+        for (Category existing : getCategories().getBody()) {
             if (existing.getCategory().equalsIgnoreCase(category))
                 return false;
         }
@@ -174,12 +188,12 @@ public class SvcCategoryImp implements SvcCategory {
     }
 
     /**
-     * Verifica si un tag es único.
+     * Verifica si un tag es único
      * @param tag El tag a verificar
      * @return true si es único, false si ya existe
      */
     private boolean isTagUnique(String tag) {
-        for (Category existing : getCategories()) {
+        for (Category existing : getCategories().getBody()) {
             if (existing.getTag().equalsIgnoreCase(tag))
                 return false;
         }
