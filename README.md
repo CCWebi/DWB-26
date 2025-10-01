@@ -8,6 +8,17 @@ Este repositorio contiene el proyecto del Seminario de Desarrollo Web Backend.
 - Maven 3.9.1
 - Spring Boot 3.5.5
 
+### Base de Datos
+
+> [!IMPORTANT]
+> Uso de MYSQL
+
+Las variables (puerto, dirección, usuario y contraseña), se dejaron por defecto.
+La conexión con nuestra DB fue éxitosa.
+
+En `database/DDL.sql` se deja el código usado para crear la base.
+Esperamos no tengamos variables con *nombres diferentes*.
+
 ## How to run
 
 Puedes usar cualquier IDE que soporte Maven y Spring Boot, como IntelliJ IDEA o Eclipse o VSCode con los plugiins recomendados.
