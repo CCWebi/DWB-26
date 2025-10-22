@@ -105,6 +105,10 @@ public class SvcCategoryImp implements SvcCategory {
     
     /**
      * Crea una categoría
+     * @return Una respuesta que indíca el éxito o error en la operación
+     * @estado 200 - La categoría ha sido registrada
+     * @estado 409 - Nombre de la categoría repetida
+     * @estado 409 - Etiqueta de la categoría repetida
      */
     public ApiResponse create(DtoCategoryIn in) {
         try {
@@ -121,19 +125,27 @@ public class SvcCategoryImp implements SvcCategory {
     
     /**
      * Actualiza una categoría
+     * @return Una respuesta que indíca el éxito o error en la operación
+     * @estado 200 - La categoría ha sido actualizada
+     * @estado 404 - ID no encontrado
+     * @estado 409 - Nombre de la categoría repetida
+     * @estado 409 - Etiqueta de la categoría repetida
      */
     public ApiResponse update(DtoCategoryIn in, Integer id) {
         try {
+            validateCategoryId(id);
             repo.update(id, in.getCategory(), in.getTag());
             return new ApiResponse("La categoría ha sido actualizada");
         } catch (DataAccessException e) {
-            
             throw new ApiException(HttpStatus.NOT_FOUND, "El id de la categoría no existe");
         }
     }
     
     /**
      * Habilita una categoría
+     * @return Una respuesta que indíca el éxito o error en la operación
+     * @estado 200 - La categoría ha sido activada
+     * @estado 404 - ID no encontrado
      */
     public ApiResponse enable(Integer id) {
         try {
@@ -147,6 +159,9 @@ public class SvcCategoryImp implements SvcCategory {
     
     /**
      * Deshabilita una categoría
+     * @return Una respuesta que indíca el éxito o error en la operación
+     * @estado 200 - La categoría ha sido desactivada
+     * @estado 404 - ID no encontrado
      */
     public ApiResponse disable(Integer id) {
         try {

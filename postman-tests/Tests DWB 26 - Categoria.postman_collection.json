@@ -1,0 +1,2738 @@
+{
+	"info": {
+		"_postman_id": "e7831fd5-e73f-46ca-b644-974be6d440ce",
+		"name": "Tests DWB 26 - Categoría",
+		"description": "Hasta P5\n\nPara facilitar el uso del \"_Run_\", se optó por **duplicar** las requests, **no** usar **flows**, ni automatizar el uso de _la siguiente request_.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "39319939"
+	},
+	"item": [
+		{
+			"name": "Vars setting",
+			"item": [
+				{
+					"name": "Vars setting - Is active?",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/**\r",
+									" * Primer nombre de la primera categoría\r",
+									" */\r",
+									"pm.collectionVariables.set(\"categoryName1\", \"Americana\");\r",
+									"\r",
+									"/**\r",
+									" * Primera etiqueta de la primera categoría\r",
+									" */\r",
+									"pm.collectionVariables.set(\"categoryTag1\", \"USA\");\r",
+									"\r",
+									"/**\r",
+									" * Primer nombre de la segunda categoría\r",
+									" */\r",
+									"pm.collectionVariables.set(\"categoryName2\", \"Tailandesa\")\r",
+									"\r",
+									"/**\r",
+									" * Primera etiqueta de la segunda categor+ia\r",
+									" */\r",
+									"pm.collectionVariables.set(\"categoryTag2\", \"Thai\");\r",
+									"\r",
+									"/**\r",
+									" * Segunda etiqueta de la primera categoría\r",
+									" * @final\r",
+									" */\r",
+									"pm.collectionVariables.set(\"newCategoryTag1\", \"US\");\r",
+									"\r",
+									"/**\r",
+									" * Segundo nombre de la primera categoría\r",
+									" * @final\r",
+									" */\r",
+									"pm.collectionVariables.set(\"newCategoryName1\", \"Estado-unidense\");\r",
+									"\r",
+									"/**\r",
+									" * Identificador inicial de la categoría\r",
+									" * Corresponde al último `categoryId` + 1\r",
+									" * @final\r",
+									" */\r",
+									"pm.collectionVariables.set(\"initialCategoryId\", 0);"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/category",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"category"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Asignación de variables"
+		},
+		{
+			"name": "TEST 0 CATEGORIES",
+			"item": [
+				{
+					"name": "TEST - All Categories (0)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/**\r",
+									" * Respuesta en forma de JSON\r",
+									" */\r",
+									"var json = pm.response.json();\r",
+									"\r",
+									"/**\r",
+									" * HTTP Status\r",
+									" * Comprueba el estado HTTP de la respuesta\r",
+									" * @test\r",
+									" */ \r",
+									"pm.test(\"TEST: Código de estado: 200\", pm.response.to.have.status(200));\r",
+									"\r",
+									"/**\r",
+									" * Consistencia\r",
+									" * Comprueba que los datos sean consistentes con la DB\r",
+									" * @test @beta\r",
+									" */\r",
+									"pm.test(\"TEST: Consistencia de datos - Vacío\", function () {\r",
+									"    pm.expect(json).to.be.an('array');\r",
+									"    pm.expect(json).to.have.lengthOf(0);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/category",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"category"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TEST - Active Categories (0)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/**\r",
+									" * Respuesta en forma de JSON\r",
+									" */\r",
+									"var json = pm.response.json();\r",
+									"\r",
+									"/**\r",
+									" * HTTP Status\r",
+									" * Comprueba el estado HTTP de la respuesta\r",
+									" * @test\r",
+									" */ \r",
+									"pm.test(\"TEST: Código de estado: 200\", pm.response.to.have.status(200));\r",
+									"\r",
+									"/**\r",
+									" * Consistencia\r",
+									" * Comprueba que los datos sean consistentes con la DB\r",
+									" * @test @beta\r",
+									" */\r",
+									"pm.test(\"TEST: Consistencia de datos - Vacío\", function () {\r",
+									"    pm.expect(json).to.be.an('array');\r",
+									"    pm.expect(json).to.have.lengthOf(0);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/category/active",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"category",
+								"active"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Módulo encargado de probar estabilidad con ninguna categoría\n\nVariables de colección en `/TEST CREATE`",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {},
+						"exec": [
+							"/**\r",
+							" * JSON recibido de la response\r",
+							" */\r",
+							"var json = pm.response.json();"
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "TEST CREATE",
+			"item": [
+				{
+					"name": "TEST - Create new Category",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/**\r",
+									" * Respuesta en forma de JSON\r",
+									" */\r",
+									"var json = pm.response.json();\r",
+									"\r",
+									"/**\r",
+									" * HTTP Status\r",
+									" * Comprueba el estado HTTP de la respuesta\r",
+									" * @test\r",
+									" */\r",
+									"pm.test(\"TEST: Código de estado: 200\", pm.response.to.have.status(200));\r",
+									"\r",
+									"/**\r",
+									" * Comprobación de respuesta\r",
+									" * Comprueba que los datos sean consistentes con la DB\r",
+									" * @test\r",
+									" */\r",
+									"pm.test(\"TEST: Comprobación de respuesta\", function () {\r",
+									"    pm.expect(json).to.have.property(\"message\");\r",
+									"    pm.expect(json.message).to.eql(\"La categoría ha sido registrada\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"category\" : \"{{categoryName1}}\",\r\n    \"tag\" : \"{{categoryTag1}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/category",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"category"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TEST - Used Name",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/**\r",
+									" * Respuesta en forma de JSON\r",
+									" */\r",
+									"var json = pm.response.json();\r",
+									"\r",
+									"/**\r",
+									" * HTTP Status\r",
+									" * Comprueba el estado HTTP de la respuesta\r",
+									" * @test\r",
+									" */\r",
+									"pm.test(\"TEST: Código de estado: 409\", function () {\r",
+									"    pm.response.to.be.error;\r",
+									"    pm.response.to.have.status(409);\r",
+									"});\r",
+									"\r",
+									"/**\r",
+									" * Comprobación de respuesta\r",
+									" * Comprueba que los datos sean consistentes con la DB\r",
+									" * @test\r",
+									" */\r",
+									"pm.test(\"TEST: Comprobación de respuesta\", function () {\r",
+									"    pm.expect(json).to.have.property(\"message\");\r",
+									"    pm.expect(json.message).to.eql(\"El nombre de la categoría ya está registrado\");\r",
+									"    pm.expect(json).to.have.property(\"error\");\r",
+									"    pm.expect(json.error).to.eql(\"CONFLICT\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"category\" : \"{{categoryName1}}\",\r\n    \"tag\" : \"{{categoryName2}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/category",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"category"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TEST - Used tag",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/**\r",
+									" * Respuesta en forma de JSON\r",
+									" */\r",
+									"var json = pm.response.json();\r",
+									"\r",
+									"/**\r",
+									" * HTTP Status\r",
+									" * Comprueba el estado HTTP de la respuesta\r",
+									" * @test\r",
+									" */\r",
+									"pm.test(\"TEST: Código de estado: 409\", function () {\r",
+									"    pm.response.to.be.error;\r",
+									"    pm.response.to.have.status(409);\r",
+									"});\r",
+									"\r",
+									"/**\r",
+									" * Comprobación de respuesta\r",
+									" * Comprueba que los datos sean consistentes con la DB\r",
+									" * @test\r",
+									" */\r",
+									"pm.test(\"TEST: Comprobación de respuesta\", function () {\r",
+									"    pm.expect(json).to.have.property(\"message\");\r",
+									"    pm.expect(json.message).to.eql(\"El tag de la categoría ya está registrado\");\r",
+									"    pm.expect(json).to.have.property(\"error\");\r",
+									"    pm.expect(json.error).to.eql(\"CONFLICT\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"category\" : \"{{categoryName2}}\",\r\n    \"tag\" : \"{{categoryTag1}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/category",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"category"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TEST - Create Category BadName",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/**\r",
+									" * Respuesta en forma de JSON\r",
+									" */\r",
+									"var json = pm.response.json();\r",
+									"\r",
+									"/**\r",
+									" * HTTP Status\r",
+									" * Comprueba el estado HTTP de la respuesta\r",
+									" * @test\r",
+									" */\r",
+									"pm.test(\"TEST: Código de estado: 400\", function () {\r",
+									"    pm.response.to.be.error;\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"/**\r",
+									" * Comprobación de respuesta\r",
+									" * Comprueba que los datos sean consistentes con la DB\r",
+									" * @test\r",
+									" */\r",
+									"pm.test(\"TEST: Comprobación de respuesta\", function () {\r",
+									"    pm.expect(json).to.have.property(\"message\");\r",
+									"    pm.expect(json.message).to.eql(\"El nombre de la categoría es obligatoria\");\r",
+									"    pm.expect(json).to.have.property(\"error\");\r",
+									"    pm.expect(json.error).to.eql(\"BAD_REQUEST\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"propiedad\" : \"Contenido\",\r\n    \"tag\" : \"{{categoryTag1}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/category",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"category"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TEST - Create Category BadTag",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/**\r",
+									" * Respuesta en forma de JSON\r",
+									" */\r",
+									"var json = pm.response.json();\r",
+									"\r",
+									"/**\r",
+									" * HTTP Status\r",
+									" * Comprueba el estado HTTP de la respuesta\r",
+									" * @test\r",
+									" */\r",
+									"pm.test(\"TEST: Código de estado: 400\", function () {\r",
+									"    pm.response.to.be.error;\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"/**\r",
+									" * Comprobación de respuesta\r",
+									" * Comprueba que los datos sean consistentes con la DB\r",
+									" * @test\r",
+									" */\r",
+									"pm.test(\"TEST: Comprobación de respuesta\", function () {\r",
+									"    pm.expect(json).to.have.property(\"message\");\r",
+									"    pm.expect(json.message).to.eql(\"El tag es obligatorio\");\r",
+									"    pm.expect(json).to.have.property(\"error\");\r",
+									"    pm.expect(json.error).to.eql(\"BAD_REQUEST\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"category\" : \"{{categoryName1}}\",\r\n    \"propiedad\" : \"Contenido\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/category",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"category"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TEST - All Categories (1)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/**\r",
+									" * Respuesta en forma de JSON\r",
+									" */\r",
+									"var json = pm.response.json();\r",
+									"\r",
+									"/**\r",
+									" * HTTP Status\r",
+									" * Comprueba el estado HTTP de la respuesta\r",
+									" * @test\r",
+									" */\r",
+									"pm.test(\"TEST: Código de estado: 200\", pm.response.to.have.status(200));\r",
+									"\r",
+									"/**\r",
+									" * Consistencia\r",
+									" * Comprueba que los datos sean consistentes con la DB\r",
+									" * @test @beta\r",
+									" */\r",
+									"pm.test(\"TEST: Consistencia - 1 valor\", function () {\r",
+									"    pm.expect(json.length).to.be.eql(1);\r",
+									"    require('lodash').each((json.data), (category) => {\r",
+									"        pm.expect(Object.keys(category).length).to.be.eql(4);\r",
+									"        pm.expect(category).to.have.property(\"category\");\r",
+									"        pm.expect(typeof category.category).to.be.eql('string');\r",
+									"        pm.expect(category.category).to.be.eql(pm.collectionVariables.get(\"categoryName1\"));\r",
+									"        pm.expect(category).to.have.property(\"tag\");\r",
+									"        pm.expect(typeof category.tag).to.be.eql('string');\r",
+									"        pm.expect(category.tag).to.be.eql(pm.collectionVariables.get(\"categoryTag1\"));\r",
+									"        pm.expect(category).to.have.property(\"status\");\r",
+									"        pm.expect(category.status).to.be.oneOf([0,1]);\r",
+									"        pm.expect(category).to.have.property(\"categoryid\");\r",
+									"        pm.expect(typeof category.categoryid).to.be.eql('number');\r",
+									"        pm.expect(category.categoryid).to.be.eql(pm.collectionVariables.get(\"initialCategoryId\"));\r",
+									"    });\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/category",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"category"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TEST - Active Categories (1)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/**\r",
+									" * Respuesta en forma de JSON\r",
+									" */\r",
+									"var json = pm.response.json();\r",
+									"\r",
+									"/**\r",
+									" * HTTP Status\r",
+									" * Comprueba el estado HTTP de la respuesta\r",
+									" * @test\r",
+									" */\r",
+									"pm.test(\"TEST: Código de estado: 200\", pm.response.to.have.status(200));\r",
+									"\r",
+									"/**\r",
+									" * Consistencia\r",
+									" * Comprueba que los datos sean consistentes con la DB\r",
+									" * @test @beta\r",
+									" */\r",
+									"pm.test(\"TEST: Consistencia - 1 valor\", function () {\r",
+									"    pm.expect(json.length).to.be.eql(1);\r",
+									"    require('lodash').each((json.data), (category) => {\r",
+									"        pm.expect(Object.keys(category).length).to.be.eql(4);\r",
+									"        pm.expect(category).to.have.property(\"category\");\r",
+									"        pm.expect(typeof category.category).to.be.eql('string');\r",
+									"        pm.expect(category.category).to.be.eql(pm.collectionVariables.get(\"categoryName1\"));\r",
+									"        pm.expect(category).to.have.property(\"tag\");\r",
+									"        pm.expect(typeof category.tag).to.be.eql('string');\r",
+									"        pm.expect(category.tag).to.be.eql(pm.collectionVariables.get(\"categoryTag1\"));\r",
+									"        pm.expect(category).to.have.property(\"status\");\r",
+									"        pm.expect(category.status).to.be.eql(1);\r",
+									"        pm.expect(category).to.have.property(\"categoryid\");\r",
+									"        pm.expect(typeof category.categoryid).to.be.eql('number');\r",
+									"        pm.expect(category.categoryid).to.be.eql(pm.collectionVariables.get(\"initialCategoryId\"));\r",
+									"    });\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/category/active",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"category",
+								"active"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TEST - Create 2nd new Category",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/**\r",
+									" * Respuesta en forma de JSON\r",
+									" */\r",
+									"var json = pm.response.json();\r",
+									"\r",
+									"/**\r",
+									" * HTTP Status\r",
+									" * Comprueba el estado HTTP de la respuesta\r",
+									" * @test\r",
+									" */\r",
+									"pm.test(\"TEST: Código de estado: 200\", pm.response.to.have.status(200));\r",
+									"\r",
+									"/**\r",
+									" * Comprobación de respuesta\r",
+									" * Comprueba que los datos sean consistentes con la DB\r",
+									" * @test\r",
+									" */\r",
+									"pm.test(\"TEST: Comprobación de respuesta\", function () {\r",
+									"    pm.expect(json).to.have.property(\"message\");\r",
+									"    pm.expect(json.message).to.eql(\"La categoría ha sido registrada\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"category\" : \"{{categoryName2}}\",\r\n    \"tag\" : \"{{categoryTag2}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/category",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"category"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TEST - All Categories (2)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/**\r",
+									" * Respuesta en forma de JSON\r",
+									" */\r",
+									"var json = pm.response.json();\r",
+									"\r",
+									"/**\r",
+									" * HTTP Status\r",
+									" * Comprueba el estado HTTP de la respuesta\r",
+									" * @test\r",
+									" */\r",
+									"pm.test(\"TEST: Código de estado: 200\", pm.response.to.have.status(200));\r",
+									"\r",
+									"/**\r",
+									" * Consistencia\r",
+									" * Comprueba que los datos sean consistentes con la DB\r",
+									" * @test @beta\r",
+									" */\r",
+									"pm.test(\"TEST: Consistencia - 2 valores\", function () {\r",
+									"    pm.expect(json.length).to.be.eql(2);\r",
+									"    var index = 0;\r",
+									"    require('lodash').each((json.data), (category) => {\r",
+									"        pm.expect(Object.keys(category).length).to.be.eql(4);\r",
+									"        pm.expect(category).to.have.property(\"category\");\r",
+									"        pm.expect(typeof category.category).to.be.eql('string');\r",
+									"        pm.expect(category.category).to.be.eql(pm.collectionVariables.get(\"categoryName1\"));\r",
+									"        pm.expect(category).to.have.property(\"tag\");\r",
+									"        pm.expect(typeof category.tag).to.be.eql('string');\r",
+									"        pm.expect(category.tag).to.be.eql(pm.collectionVariables.get(\"categoryTag1\"));\r",
+									"        pm.expect(category).to.have.property(\"status\");\r",
+									"        pm.expect(category.status).to.be.oneOf([0,1]);\r",
+									"        pm.expect(category).to.have.property(\"categoryid\");\r",
+									"        pm.expect(typeof category.categoryid).to.be.eql('number');\r",
+									"        pm.expect(category.categoryid).to.be.eql(pm.collectionVariables.get(\"initialCategoryId\") + index++);\r",
+									"    });\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/category",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"category"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TEST - Active Categories (2)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/**\r",
+									" * Respuesta en forma de JSON\r",
+									" */\r",
+									"var json = pm.response.json();\r",
+									"\r",
+									"/**\r",
+									" * HTTP Status\r",
+									" * Comprueba el estado HTTP de la respuesta\r",
+									" * @test\r",
+									" */\r",
+									"pm.test(\"TEST: Código de estado: 200\", pm.response.to.have.status(200));\r",
+									"\r",
+									"/**\r",
+									" * Consistencia\r",
+									" * Comprueba que los datos sean consistentes con la DB\r",
+									" * @test @beta\r",
+									" */\r",
+									"pm.test(\"TEST: Consistencia - 2 valores\", function () {\r",
+									"    pm.expect(json.length).to.be.eql(2);\r",
+									"    var index = 0;\r",
+									"    require('lodash').each((json.data), (category) => {\r",
+									"        pm.expect(Object.keys(category).length).to.be.eql(4);\r",
+									"        pm.expect(category).to.have.property(\"category\");\r",
+									"        pm.expect(typeof category.category).to.be.eql('string');\r",
+									"        pm.expect(category.category).to.be.eql(pm.collectionVariables.get(\"categoryName\".concat(index.toString)));\r",
+									"        pm.expect(category).to.have.property(\"tag\");\r",
+									"        pm.expect(typeof category.tag).to.be.eql('string');\r",
+									"        pm.expect(category.tag).to.be.eql(pm.collectionVariables.get(\"categoryTag\".concat(index.toString)));\r",
+									"        pm.expect(category).to.have.property(\"status\");\r",
+									"        pm.expect(category.status).to.be.eql(1);\r",
+									"        pm.expect(category).to.have.property(\"categoryid\");\r",
+									"        pm.expect(typeof category.categoryid).to.be.eql('number');\r",
+									"        pm.expect(category.categoryid).to.be.eql(pm.collectionVariables.get(\"initialCategoryId\") + index++);\r",
+									"    });\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/category/active",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"category",
+								"active"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Módulo encargado de probar estabilidad con una categoría"
+		},
+		{
+			"name": "TEST UPDATE",
+			"item": [
+				{
+					"name": "TEST - Update Name",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"/**\r",
+									" * Variable temporal para guardar el nombre original\r",
+									" */\r",
+									"pm.collectionVariables.set(\"tempName1\", pm.collectionVariables.get(\"categoryName1\"));\r",
+									"\r",
+									"/**\r",
+									" * Cambio de nombre\r",
+									" */\r",
+									"pm.collectionVariables.set(\"categoryName1\", pm.collectionVariables.get(\"newCategoryName1\"));"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/**\r",
+									" * Respuesta en forma de JSON\r",
+									" */\r",
+									"var json = pm.response.json();\r",
+									"\r",
+									"/**\r",
+									" * HTTP Status\r",
+									" * Comprueba el estado HTTP de la respuesta\r",
+									" * @test\r",
+									" */\r",
+									"pm.test(\"TEST: Código de estado: 200\", pm.response.to.have.status(200));\r",
+									"\r",
+									"/**\r",
+									" * Comprobación de respuesta\r",
+									" * Comprueba que los datos sean consistentes con la DB\r",
+									" * @test\r",
+									" */\r",
+									"pm.test(\"TEST: Comprobación de respuesta\", function () {\r",
+									"    pm.expect(json).to.have.property(\"message\");\r",
+									"    pm.expect(json.message).to.eql(\"La categoría ha sido actualizada\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"category\" : \"{{categoryName1}}\",\r\n    \"tag\" : \"{{categoryTag1}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/category/{{initialCategoryId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"category",
+								"{{initialCategoryId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TEST - All Categories (2) - status 1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/**\r",
+									" * Respuesta en forma de JSON\r",
+									" */\r",
+									"var json = pm.response.json();\r",
+									"\r",
+									"/**\r",
+									" * HTTP Status\r",
+									" * Comprueba el estado HTTP de la respuesta\r",
+									" * @test\r",
+									" */\r",
+									"pm.test(\"TEST: Código de estado: 200\", pm.response.to.have.status(200));\r",
+									"\r",
+									"/**\r",
+									" * Consistencia\r",
+									" * Comprueba que los datos sean consistentes con la DB\r",
+									" * @test @beta\r",
+									" */\r",
+									"pm.test(\"TEST: Consistencia - 2 valores\", function () {\r",
+									"    pm.expect(json.length).to.be.eql(2);\r",
+									"    var index = 0;\r",
+									"    require('lodash').each((json.data), (category) => {\r",
+									"        pm.expect(Object.keys(category).length).to.be.eql(4);\r",
+									"        pm.expect(category).to.have.property(\"category\");\r",
+									"        pm.expect(typeof category.category).to.be.eql('string');\r",
+									"        pm.expect(category.category).to.be.eql(pm.collectionVariables.get(\"categoryName\".concat(index.toString)));\r",
+									"        pm.expect(category).to.have.property(\"tag\");\r",
+									"        pm.expect(typeof category.tag).to.be.eql('string');\r",
+									"        pm.expect(category.tag).to.be.eql(pm.collectionVariables.get(\"categoryTag\".concat(index.toString)));\r",
+									"        pm.expect(category).to.have.property(\"status\");\r",
+									"        pm.expect(category.status).to.be.eql(1);\r",
+									"        pm.expect(category).to.have.property(\"categoryid\");\r",
+									"        pm.expect(typeof category.categoryid).to.be.eql('number');\r",
+									"        pm.expect(category.categoryid).to.be.eql(pm.collectionVariables.get(\"initialCategoryId\") + index++);\r",
+									"    });\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/category",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"category"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TEST - Update Tag",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"/**\r",
+									" * Variable temporal para guardar el nombre original\r",
+									" */\r",
+									"pm.collectionVariables.set(\"tempTag1\", pm.collectionVariables.get(\"categoryTag1\"));\r",
+									"\r",
+									"/**\r",
+									" * Cambio de etiqueta\r",
+									" */\r",
+									"pm.collectionVariables.set(\"categoryTag1\", pm.collectionVariables.get(\"newCategoryTag1\"));"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/**\r",
+									" * Respuesta en forma de JSON\r",
+									" */\r",
+									"var json = pm.response.json();\r",
+									"\r",
+									"/**\r",
+									" * HTTP Status\r",
+									" * Comprueba el estado HTTP de la respuesta\r",
+									" * @test\r",
+									" */\r",
+									"pm.test(\"TEST: Código de estado: 200\", pm.response.to.have.status(200));\r",
+									"\r",
+									"/**\r",
+									" * Comprobación de respuesta\r",
+									" * Comprueba que los datos sean consistentes con la DB\r",
+									" * @test\r",
+									" */\r",
+									"pm.test(\"TEST: Comprobación de respuesta\", function () {\r",
+									"    pm.expect(json).to.have.property(\"message\");\r",
+									"    pm.expect(json.message).to.eql(\"La categoría ha sido actualizada\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"category\" : \"{{newCategoryName1}}\",\r\n    \"tag\" : \"{{newCategoryTag1}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/category/{{initialCategoryId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"category",
+								"{{initialCategoryId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TEST - All Categories (2) - status 1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/**\r",
+									" * Respuesta en forma de JSON\r",
+									" */\r",
+									"var json = pm.response.json();\r",
+									"\r",
+									"/**\r",
+									" * HTTP Status\r",
+									" * Comprueba el estado HTTP de la respuesta\r",
+									" * @test\r",
+									" */\r",
+									"pm.test(\"TEST: Código de estado: 200\", pm.response.to.have.status(200));\r",
+									"\r",
+									"/**\r",
+									" * Consistencia\r",
+									" * Comprueba que los datos sean consistentes con la DB\r",
+									" * @test @beta\r",
+									" */\r",
+									"pm.test(\"TEST: Consistencia - 2 valores\", function () {\r",
+									"    pm.expect(json.length).to.be.eql(2);\r",
+									"    var index = 0;\r",
+									"    require('lodash').each((json.data), (category) => {\r",
+									"        pm.expect(Object.keys(category).length).to.be.eql(4);\r",
+									"        pm.expect(category).to.have.property(\"category\");\r",
+									"        pm.expect(typeof category.category).to.be.eql('string');\r",
+									"        pm.expect(category.category).to.be.eql(pm.collectionVariables.get(\"categoryName\".concat(index.toString)));\r",
+									"        pm.expect(category).to.have.property(\"tag\");\r",
+									"        pm.expect(typeof category.tag).to.be.eql('string');\r",
+									"        pm.expect(category.tag).to.be.eql(pm.collectionVariables.get(\"categoryTag\".concat(index.toString)));\r",
+									"        pm.expect(category).to.have.property(\"status\");\r",
+									"        pm.expect(category.status).to.be.eql(1);\r",
+									"        pm.expect(category).to.have.property(\"categoryid\");\r",
+									"        pm.expect(typeof category.categoryid).to.be.eql('number');\r",
+									"        pm.expect(category.categoryid).to.be.eql(pm.collectionVariables.get(\"initialCategoryId\") + index++);\r",
+									"    });\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/category",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"category"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Name & Tag",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"/**\r",
+									" * Regresar el valor del nombre al original\r",
+									" */\r",
+									"pm.collectionVariables.set(\"categoryName1\", pm.collectionVariables.get(\"tempName1\"));\r",
+									"\r",
+									"/**\r",
+									" * Regresar el valor del etiqueta al original\r",
+									" */\r",
+									"pm.collectionVariables.set(\"categoryTag1\", pm.collectionVariables.get(\"tempTag1\"));"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/**\r",
+									" * Respuesta en forma de JSON\r",
+									" */\r",
+									"var json = pm.response.json();\r",
+									"\r",
+									"/**\r",
+									" * HTTP Status\r",
+									" * Comprueba el estado HTTP de la respuesta\r",
+									" * @test\r",
+									" */\r",
+									"pm.test(\"TEST: Código de estado: 200\", pm.response.to.have.status(200));\r",
+									"\r",
+									"/**\r",
+									" * Comprobación de respuesta\r",
+									" * Comprueba que los datos sean consistentes con la DB\r",
+									" * @test\r",
+									" */\r",
+									"pm.test(\"TEST: Comprobación de respuesta\", function () {\r",
+									"    pm.expect(json).to.have.property(\"message\");\r",
+									"    pm.expect(json.message).to.eql(\"La categoría ha sido actualizada\");\r",
+									"});\r",
+									"\r",
+									"/**\r",
+									" * Borrado de variable temporal con el nombre temporal\r",
+									" */\r",
+									"pm.collectionVariables.unset(\"tempName1\");\r",
+									"\r",
+									"/**\r",
+									" * Borrado de variable temporal con la etiqueta temporal\r",
+									" */\r",
+									"pm.collectionVariables.unset(\"tempTag1\");"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"category\" : \"{{categoryName1}}\",\r\n    \"tag\" : \"{{categoryTag1}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/category/{{initialCategoryId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"category",
+								"{{initialCategoryId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TEST - All Categories(2) - status 1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/**\r",
+									" * Respuesta en forma de JSON\r",
+									" */\r",
+									"var json = pm.response.json();\r",
+									"\r",
+									"/**\r",
+									" * HTTP Status\r",
+									" * Comprueba el estado HTTP de la respuesta\r",
+									" * @test\r",
+									" */\r",
+									"pm.test(\"TEST: Código de estado: 200\", pm.response.to.have.status(200));\r",
+									"\r",
+									"/**\r",
+									" * Consistencia\r",
+									" * Comprueba que los datos sean consistentes con la DB\r",
+									" * @test @beta\r",
+									" */\r",
+									"pm.test(\"TEST: Consistencia - 2 valores\", function () {\r",
+									"    pm.expect(json.length).to.be.eql(2);\r",
+									"    var index = 0;\r",
+									"    require('lodash').each((json.data), (category) => {\r",
+									"        pm.expect(Object.keys(category).length).to.be.eql(4);\r",
+									"        pm.expect(category).to.have.property(\"category\");\r",
+									"        pm.expect(typeof category.category).to.be.eql('string');\r",
+									"        pm.expect(category.category).to.be.eql(pm.collectionVariables.get(\"categoryName\".concat(index.toString)));\r",
+									"        pm.expect(category).to.have.property(\"tag\");\r",
+									"        pm.expect(typeof category.tag).to.be.eql('string');\r",
+									"        pm.expect(category.tag).to.be.eql(pm.collectionVariables.get(\"categoryTag\".concat(index.toString)));\r",
+									"        pm.expect(category).to.have.property(\"status\");\r",
+									"        pm.expect(category.status).to.be.eql(1);\r",
+									"        pm.expect(category).to.have.property(\"categoryid\");\r",
+									"        pm.expect(typeof category.categoryid).to.be.eql('number');\r",
+									"        pm.expect(category.categoryid).to.be.eql(pm.collectionVariables.get(\"initialCategoryId\") + index++);\r",
+									"    });\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/category",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"category"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TEST - Update Wrong ID",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"/**\r",
+									" * Identificador fuera de límites\r",
+									" */\r",
+									"pm.collectionVariables.set(\"tempId\", pm.collectionVariables.get(\"initialCategoryId\") + 200);"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/**\r",
+									" * Respuesta en forma de JSON\r",
+									" */\r",
+									"var json = pm.response.json();\r",
+									"\r",
+									"/**\r",
+									" * HTTP Status\r",
+									" * Comprueba el estado HTTP de la respuesta\r",
+									" * @test\r",
+									" */\r",
+									"pm.test(\"TEST: Código de estado: 404\", function () {\r",
+									"    pm.response.to.be.error;\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"/**\r",
+									" * Comprobación de respuesta\r",
+									" * Comprueba que los datos sean consistentes con la DB\r",
+									" * @test\r",
+									" */\r",
+									"pm.test(\"TEST: Comprobación de respuesta\", function () {\r",
+									"    pm.expect(json).to.have.property(\"message\");\r",
+									"    pm.expect(json.message).to.eql(\"El id de la categoría no existe\");\r",
+									"});\r",
+									"\r",
+									"/**\r",
+									" * Borrado de variable temporal con identificador fuera de límitesS\r",
+									" */\r",
+									"pm.collectionVariables.unset(\"tempId\");"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"category\" : \"{{categoryName1}}\",\r\n    \"tag\" : \"{{categoryTag1}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/category/{{tempId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"category",
+								"{{tempId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TEST - Update ID & status",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/**\r",
+									" * Respuesta en forma de JSON\r",
+									" */\r",
+									"var json = pm.response.json();\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"category\" : \"{{categoryName1}}\",\r\n    \"tag\" : \"{{categoryTag1}}\",\r\n    \"status\" : 0,\r\n    \"category_id\" : -1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/category/{{initialCategoryId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"category",
+								"{{initialCategoryId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TEST - All Categories(2) - status 1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/**\r",
+									" * Respuesta en forma de JSON\r",
+									" */\r",
+									"var json = pm.response.json();\r",
+									"\r",
+									"/**\r",
+									" * HTTP Status\r",
+									" * Comprueba el estado HTTP de la respuesta\r",
+									" * @test\r",
+									" */\r",
+									"pm.test(\"TEST: Código de estado: 200\", pm.response.to.have.status(200));\r",
+									"\r",
+									"/**\r",
+									" * Consistencia\r",
+									" * Comprueba que los datos sean consistentes con la DB\r",
+									" * @test @beta\r",
+									" */\r",
+									"pm.test(\"TEST: Consistencia - 2 valores\", function () {\r",
+									"    pm.expect(json.length).to.be.eql(2);\r",
+									"    var index = 0;\r",
+									"    require('lodash').each((json.data), (category) => {\r",
+									"        pm.expect(Object.keys(category).length).to.be.eql(4);\r",
+									"        pm.expect(category).to.have.property(\"category\");\r",
+									"        pm.expect(typeof category.category).to.be.eql('string');\r",
+									"        pm.expect(category.category).to.be.eql(pm.collectionVariables.get(\"categoryName\".concat(index.toString)));\r",
+									"        pm.expect(category).to.have.property(\"tag\");\r",
+									"        pm.expect(typeof category.tag).to.be.eql('string');\r",
+									"        pm.expect(category.tag).to.be.eql(pm.collectionVariables.get(\"categoryTag\".concat(index.toString)));\r",
+									"        pm.expect(category).to.have.property(\"status\");\r",
+									"        pm.expect(category.status).to.be.eql(1);\r",
+									"        pm.expect(category).to.have.property(\"categoryid\");\r",
+									"        pm.expect(typeof category.categoryid).to.be.eql('number');\r",
+									"        pm.expect(category.categoryid).to.be.eql(pm.collectionVariables.get(\"initialCategoryId\") + index++);\r",
+									"    });\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/category",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"category"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TEST - Update Used Name",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/**\r",
+									" * Respuesta en forma de JSON\r",
+									" */\r",
+									"var json = pm.response.json();\r",
+									"\r",
+									"/**\r",
+									" * HTTP Status\r",
+									" * Comprueba el estado HTTP de la respuesta\r",
+									" * @test\r",
+									" */\r",
+									"pm.test(\"TEST: Código de estado: 409\", function () {\r",
+									"    pm.response.to.be.error;\r",
+									"    pm.response.to.have.status(409);\r",
+									"});\r",
+									"\r",
+									"/**\r",
+									" * Comprobación de respuesta\r",
+									" * Comprueba que los datos sean consistentes con la DB\r",
+									" * @test\r",
+									" */\r",
+									"pm.test(\"TEST: Comprobación de respuesta\", function () {\r",
+									"    pm.expect(json).to.have.property(\"message\");\r",
+									"    pm.expect(json.message).to.eql(\"El nombre de la categoría ya está registrado\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"category\" : \"{{categoryName2}}\",\r\n    \"tag\" : \"{{categoryTag1}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/category/{{initialCategoryId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"category",
+								"{{initialCategoryId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TEST - Update Used Tag",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/**\r",
+									" * Respuesta en forma de JSON\r",
+									" */\r",
+									"var json = pm.response.json();\r",
+									"\r",
+									"/**\r",
+									" * HTTP Status\r",
+									" * Comprueba el estado HTTP de la respuesta\r",
+									" * @test\r",
+									" */\r",
+									"pm.test(\"TEST: Código de estado: 409\", function () {\r",
+									"    pm.response.to.be.error;\r",
+									"    pm.response.to.have.status(409);\r",
+									"});\r",
+									"\r",
+									"/**\r",
+									" * Comprobación de respuesta\r",
+									" * Comprueba que los datos sean consistentes con la DB\r",
+									" * @test\r",
+									" */\r",
+									"pm.test(\"TEST: Comprobación de respuesta\", function () {\r",
+									"    pm.expect(json).to.have.property(\"message\");\r",
+									"    pm.expect(json.message).to.eql(\"El nombre de la categoría ya está registrado\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"category\" : \"{{categoryName1}}\",\r\n    \"tag\" : \"{{categoryTag2}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/category/{{initialCategoryId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"category",
+								"{{initialCategoryId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Módulo encargado de probar estabilidad tras cambio de datos de la categoría"
+		},
+		{
+			"name": "TEST DIS/EN - ABLE",
+			"item": [
+				{
+					"name": "TEST - Disable 1st Category",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/**\r",
+									" * Respuesta en forma de JSON\r",
+									" */\r",
+									"var json = pm.response.json();\r",
+									"\r",
+									"/**\r",
+									" * HTTP Status\r",
+									" * Comprueba el estado HTTP de la respuesta\r",
+									" * @test\r",
+									" */\r",
+									"pm.test(\"TEST: Código de estado: 200\", pm.response.to.have.status(200));\r",
+									"\r",
+									"/**\r",
+									" * Comprobación de respuesta\r",
+									" * Comprueba que los datos sean consistentes con la DB\r",
+									" * @test\r",
+									" */\r",
+									"pm.test(\"TEST: Comprobación de respuesta\", function () {\r",
+									"    pm.expect(json).to.have.property(\"message\");\r",
+									"    pm.expect(json.message).to.eql(\"La categoría ha sido desactivada\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/category/{{initialCategoryId}}/disable",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"category",
+								"{{initialCategoryId}}",
+								"disable"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TEST - Active Categories (2nd active)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/**\r",
+									" * Respuesta en forma de JSON\r",
+									" */\r",
+									"var json = pm.response.json();\r",
+									"\r",
+									"/**\r",
+									" * HTTP Status\r",
+									" * Comprueba el estado HTTP de la respuesta\r",
+									" * @test\r",
+									" */\r",
+									"pm.test(\"TEST: Código de estado: 200\", pm.response.to.have.status(200));\r",
+									"\r",
+									"/**\r",
+									" * Consistencia\r",
+									" * Comprueba que los datos sean consistentes con la DB\r",
+									" * @test @beta\r",
+									" */\r",
+									"pm.test(\"TEST: Consistencia - 1 valor\", function () {\r",
+									"    pm.expect(json.length).to.be.eql(1);\r",
+									"    require('lodash').each((json.data), (category) => {\r",
+									"        pm.expect(Object.keys(category).length).to.be.eql(4);\r",
+									"        pm.expect(category).to.have.property(\"category\");\r",
+									"        pm.expect(typeof category.category).to.be.eql('string');\r",
+									"        pm.expect(category.category).to.be.eql(pm.collectionVariables.get(\"categoryName2\"));\r",
+									"        pm.expect(category).to.have.property(\"tag\");\r",
+									"        pm.expect(typeof category.tag).to.be.eql('string');\r",
+									"        pm.expect(category.tag).to.be.eql(pm.collectionVariables.get(\"categoryTag2\"));\r",
+									"        pm.expect(category).to.have.property(\"status\");\r",
+									"        pm.expect(category.status).to.be.eql(1);\r",
+									"        pm.expect(category).to.have.property(\"categoryid\");\r",
+									"        pm.expect(typeof category.categoryid).to.be.eql('number');\r",
+									"        pm.expect(category.categoryid).to.be.eql(pm.collectionVariables.get(\"initialCategoryId\") + 1);\r",
+									"    });\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/category/active",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"category",
+								"active"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TEST - Disable 2nd Category",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"/**\r",
+									" *  Variable temporal para el ssgundo identificador a usar\r",
+									" */\r",
+									"pm.collectionVariables.set(\"secondId\", pm.collectionVariables.get(\"initialCategoryId\") + 1)"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/**\r",
+									" * Respuesta en forma de JSON\r",
+									" */\r",
+									"var json = pm.response.json();\r",
+									"\r",
+									"/**\r",
+									" * HTTP Status\r",
+									" * Comprueba el estado HTTP de la respuesta\r",
+									" * @test\r",
+									" */\r",
+									"pm.test(\"TEST: Código de estado: 200\", pm.response.to.have.status(200));\r",
+									"\r",
+									"/**\r",
+									" * Comprobación de respuesta\r",
+									" * Comprueba que los datos sean consistentes con la DB\r",
+									" * @test\r",
+									" */\r",
+									"pm.test(\"TEST: Comprobación de respuesta\", function () {\r",
+									"    pm.expect(json).to.have.property(\"message\");\r",
+									"    pm.expect(json.message).to.eql(\"La categoría ha sido desactivada\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/category/{{secondId}}/disable",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"category",
+								"{{secondId}}",
+								"disable"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TEST - Active Categories (0)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/**\r",
+									" * Respuesta en forma de JSON\r",
+									" */\r",
+									"var json = pm.response.json();\r",
+									"\r",
+									"/**\r",
+									" * HTTP Status\r",
+									" * Comprueba el estado HTTP de la respuesta\r",
+									" * @test\r",
+									" */ \r",
+									"pm.test(\"TEST: Código de estado: 200\", pm.response.to.have.status(200));\r",
+									"\r",
+									"/**\r",
+									" * Consistencia\r",
+									" * Comprueba que los datos sean consistentes con la DB\r",
+									" * @test @beta\r",
+									" */\r",
+									"pm.test(\"TEST: Consistencia de datos - Vacío\", function () {\r",
+									"    pm.expect(json).to.be.an('array');\r",
+									"    pm.expect(json).to.have.lengthOf(0);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/category/active",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"category",
+								"active"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TEST - Double Disable (on 1st)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/**\r",
+									" * Respuesta en forma de JSON\r",
+									" */\r",
+									"var json = pm.response.json();\r",
+									"\r",
+									"/**\r",
+									" * HTTP Status\r",
+									" * Comprueba el estado HTTP de la respuesta\r",
+									" * @test\r",
+									" */\r",
+									"pm.test(\"TEST: Código de estado: 200\", pm.response.to.have.status(200));\r",
+									"\r",
+									"/**\r",
+									" * Comprobación de respuesta\r",
+									" * Comprueba que los datos sean consistentes con la DB\r",
+									" * @test\r",
+									" */\r",
+									"pm.test(\"TEST: Comprobación de respuesta\", function () {\r",
+									"    pm.expect(json).to.have.property(\"message\");\r",
+									"    pm.expect(json.message).to.eql(\"La categoría ha sido desactivada\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/category/{{initialCategoryId}}/disable",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"category",
+								"{{initialCategoryId}}",
+								"disable"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TEST - Active Categories (0)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/**\r",
+									" * Respuesta en forma de JSON\r",
+									" */\r",
+									"var json = pm.response.json();\r",
+									"\r",
+									"/**\r",
+									" * HTTP Status\r",
+									" * Comprueba el estado HTTP de la respuesta\r",
+									" * @test\r",
+									" */ \r",
+									"pm.test(\"TEST: Código de estado: 200\", pm.response.to.have.status(200));\r",
+									"\r",
+									"/**\r",
+									" * Consistencia\r",
+									" * Comprueba que los datos sean consistentes con la DB\r",
+									" * @test @beta\r",
+									" */\r",
+									"pm.test(\"TEST: Consistencia de datos - Vacío\", function () {\r",
+									"    pm.expect(json).to.be.an('array');\r",
+									"    pm.expect(json).to.have.lengthOf(0);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/category/active",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"category",
+								"active"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TEST - Enable 1st Category",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/**\r",
+									" * Respuesta en forma de JSON\r",
+									" */\r",
+									"var json = pm.response.json();\r",
+									"\r",
+									"/**\r",
+									" * HTTP Status\r",
+									" * Comprueba el estado HTTP de la respuesta\r",
+									" * @test\r",
+									" */\r",
+									"pm.test(\"TEST: Código de estado: 200\", pm.response.to.have.status(200));\r",
+									"\r",
+									"/**\r",
+									" * Comprobación de respuesta\r",
+									" * Comprueba que los datos sean consistentes con la DB\r",
+									" * @test\r",
+									" */\r",
+									"pm.test(\"TEST: Comprobación de respuesta\", function () {\r",
+									"    pm.expect(json).to.have.property(\"message\");\r",
+									"    pm.expect(json.message).to.eql(\"La categoría ha sido activada\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/category/{{initialCategoryId}}/enable",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"category",
+								"{{initialCategoryId}}",
+								"enable"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TEST - Active Categories (1st active)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/**\r",
+									" * Respuesta en forma de JSON\r",
+									" */\r",
+									"var json = pm.response.json();\r",
+									"\r",
+									"/**\r",
+									" * HTTP Status\r",
+									" * Comprueba el estado HTTP de la respuesta\r",
+									" * @test\r",
+									" */\r",
+									"pm.test(\"TEST: Código de estado: 200\", pm.response.to.have.status(200));\r",
+									"\r",
+									"/**\r",
+									" * Consistencia\r",
+									" * Comprueba que los datos sean consistentes con la DB\r",
+									" * @test @beta\r",
+									" */\r",
+									"pm.test(\"TEST: Consistencia - 1 valor\", function () {\r",
+									"    pm.expect(json.length).to.be.eql(1);\r",
+									"    require('lodash').each((json.data), (category) => {\r",
+									"        pm.expect(Object.keys(category).length).to.be.eql(4);\r",
+									"        pm.expect(category).to.have.property(\"category\");\r",
+									"        pm.expect(typeof category.category).to.be.eql('string');\r",
+									"        pm.expect(category.category).to.be.eql(pm.collectionVariables.get(\"categoryName1\"));\r",
+									"        pm.expect(category).to.have.property(\"tag\");\r",
+									"        pm.expect(typeof category.tag).to.be.eql('string');\r",
+									"        pm.expect(category.tag).to.be.eql(pm.collectionVariables.get(\"categoryTag1\"));\r",
+									"        pm.expect(category).to.have.property(\"status\");\r",
+									"        pm.expect(category.status).to.be.eql(1);\r",
+									"        pm.expect(category).to.have.property(\"categoryid\");\r",
+									"        pm.expect(typeof category.categoryid).to.be.eql('number');\r",
+									"        pm.expect(category.categoryid).to.be.eql(pm.collectionVariables.get(\"initialCategoryId\"));\r",
+									"    });\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/category/active",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"category",
+								"active"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TEST - Enable 2nd Category",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/**\r",
+									" * Respuesta en forma de JSON\r",
+									" */\r",
+									"var json = pm.response.json();\r",
+									"\r",
+									"/**\r",
+									" * HTTP Status\r",
+									" * Comprueba el estado HTTP de la respuesta\r",
+									" * @test\r",
+									" */\r",
+									"pm.test(\"TEST: Código de estado: 200\", pm.response.to.have.status(200));\r",
+									"\r",
+									"/**\r",
+									" * Comprobación de respuesta\r",
+									" * Comprueba que los datos sean consistentes con la DB\r",
+									" * @test\r",
+									" */\r",
+									"pm.test(\"TEST: Comprobación de respuesta\", function () {\r",
+									"    pm.expect(json).to.have.property(\"message\");\r",
+									"    pm.expect(json.message).to.eql(\"La categoría ha sido activada\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/category/{{secondId}}/enable",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"category",
+								"{{secondId}}",
+								"enable"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TEST - Active Categories (2)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/**\r",
+									" * Respuesta en forma de JSON\r",
+									" */\r",
+									"var json = pm.response.json();\r",
+									"\r",
+									"/**\r",
+									" * HTTP Status\r",
+									" * Comprueba el estado HTTP de la respuesta\r",
+									" * @test\r",
+									" */\r",
+									"pm.test(\"TEST: Código de estado: 200\", pm.response.to.have.status(200));\r",
+									"\r",
+									"/**\r",
+									" * Consistencia\r",
+									" * Comprueba que los datos sean consistentes con la DB\r",
+									" * @test @beta\r",
+									" */\r",
+									"pm.test(\"TEST: Consistencia - 2 valores\", function () {\r",
+									"    pm.expect(json.length).to.be.eql(2);\r",
+									"    var index = 0;\r",
+									"    require('lodash').each((json.data), (category) => {\r",
+									"        pm.expect(Object.keys(category).length).to.be.eql(4);\r",
+									"        pm.expect(category).to.have.property(\"category\");\r",
+									"        pm.expect(typeof category.category).to.be.eql('string');\r",
+									"        pm.expect(category.category).to.be.eql(pm.collectionVariables.get(\"categoryName\".concat(index.toString)));\r",
+									"        pm.expect(category).to.have.property(\"tag\");\r",
+									"        pm.expect(typeof category.tag).to.be.eql('string');\r",
+									"        pm.expect(category.tag).to.be.eql(pm.collectionVariables.get(\"categoryTag\".concat(index.toString)));\r",
+									"        pm.expect(category).to.have.property(\"status\");\r",
+									"        pm.expect(category.status).to.be.eql(1);\r",
+									"        pm.expect(category).to.have.property(\"categoryid\");\r",
+									"        pm.expect(typeof category.categoryid).to.be.eql('number');\r",
+									"        pm.expect(category.categoryid).to.be.eql(pm.collectionVariables.get(\"initialCategoryId\") + index++);\r",
+									"    });\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/category/active",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"category",
+								"active"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TEST - Double Enable (on 1st)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/**\r",
+									" * Respuesta en forma de JSON\r",
+									" */\r",
+									"var json = pm.response.json();\r",
+									"\r",
+									"/**\r",
+									" * HTTP Status\r",
+									" * Comprueba el estado HTTP de la respuesta\r",
+									" * @test\r",
+									" */\r",
+									"pm.test(\"TEST: Código de estado: 200\", pm.response.to.have.status(200));\r",
+									"\r",
+									"/**\r",
+									" * Comprobación de respuesta\r",
+									" * Comprueba que los datos sean consistentes con la DB\r",
+									" * @test\r",
+									" */\r",
+									"pm.test(\"TEST: Comprobación de respuesta\", function () {\r",
+									"    pm.expect(json).to.have.property(\"message\");\r",
+									"    pm.expect(json.message).to.eql(\"La categoría ha sido activada\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/category/{{initialCategoryId}}/enable",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"category",
+								"{{initialCategoryId}}",
+								"enable"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TEST - Active Categories",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/**\r",
+									" * Respuesta en forma de JSON\r",
+									" */\r",
+									"var json = pm.response.json();\r",
+									"\r",
+									"/**\r",
+									" * HTTP Status\r",
+									" * Comprueba el estado HTTP de la respuesta\r",
+									" * @test\r",
+									" */\r",
+									"pm.test(\"TEST: Código de estado: 200\", pm.response.to.have.status(200));\r",
+									"\r",
+									"/**\r",
+									" * Consistencia\r",
+									" * Comprueba que los datos sean consistentes con la DB\r",
+									" * @test @beta\r",
+									" */\r",
+									"pm.test(\"TEST: Consistencia - 2 valores\", function () {\r",
+									"    pm.expect(json.length).to.be.eql(2);\r",
+									"    var index = 0;\r",
+									"    require('lodash').each((json.data), (category) => {\r",
+									"        pm.expect(Object.keys(category).length).to.be.eql(4);\r",
+									"        pm.expect(category).to.have.property(\"category\");\r",
+									"        pm.expect(typeof category.category).to.be.eql('string');\r",
+									"        pm.expect(category.category).to.be.eql(pm.collectionVariables.get(\"categoryName\".concat(index.toString)));\r",
+									"        pm.expect(category).to.have.property(\"tag\");\r",
+									"        pm.expect(typeof category.tag).to.be.eql('string');\r",
+									"        pm.expect(category.tag).to.be.eql(pm.collectionVariables.get(\"categoryTag\".concat(index.toString)));\r",
+									"        pm.expect(category).to.have.property(\"status\");\r",
+									"        pm.expect(category.status).to.be.eql(1);\r",
+									"        pm.expect(category).to.have.property(\"categoryid\");\r",
+									"        pm.expect(typeof category.categoryid).to.be.eql('number');\r",
+									"        pm.expect(category.categoryid).to.be.eql(pm.collectionVariables.get(\"initialCategoryId\") + index++);\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"/**\r",
+									" * Borrado de variable temporal con identificador de la segunda categoría\r",
+									" */\r",
+									"pm.collectionVariables.set(\"secondId\", pm.collectionVariables.get(\"initialCategoryId\") + 1)"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/category/active",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"category",
+								"active"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Módulo encargado de probar estabilidad modificando su `status` de la categoría"
+		},
+		{
+			"name": "Deprecated TESTS - Do not run",
+			"item": [
+				{
+					"name": "Deprecated TEST - Create Category EmptyName",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/**\r",
+									" * Respuesta en forma de JSON\r",
+									" */\r",
+									"var json = pm.response.json();\r",
+									"\r",
+									"/**\r",
+									" * HTTP Status\r",
+									" * Comprueba el estado HTTP de la respuesta\r",
+									" * @test\r",
+									" */\r",
+									"pm.test(\"TEST: Código de estado: 200\", pm.response.to.have.status(200));\r",
+									"\r",
+									"/**\r",
+									" * Comprobación de respuesta\r",
+									" * Comprueba que los datos sean consistentes con la DB\r",
+									" * @test\r",
+									" */\r",
+									"pm.test(\"TEST: Comprobación de respuesta\", function () {\r",
+									"    pm.expect(json).to.have.property(\"message\");\r",
+									"    pm.expect(json.message).to.eql(\"La categoría ha sido registrada\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"category\" : \"\",\r\n    \"tag\" : \"{{categoryTag2}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/category",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"category"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deprecated TEST - Create Category EmptyTag",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/**\r",
+									" * Respuesta en forma de JSON\r",
+									" */\r",
+									"var json = pm.response.json();\r",
+									"\r",
+									"/**\r",
+									" * HTTP Status\r",
+									" * Comprueba el estado HTTP de la respuesta\r",
+									" * @test\r",
+									" */\r",
+									"pm.test(\"TEST: Código de estado: 200\", pm.response.to.have.status(200));\r",
+									"\r",
+									"/**\r",
+									" * Comprobación de respuesta\r",
+									" * Comprueba que los datos sean consistentes con la DB\r",
+									" * @test\r",
+									" */\r",
+									"pm.test(\"TEST: Comprobación de respuesta\", function () {\r",
+									"    pm.expect(json).to.have.property(\"message\");\r",
+									"    pm.expect(json.message).to.eql(\"La categoría ha sido registrada\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"category\" : \"{{categoryName2}}\",\r\n    \"tag\" : \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/category",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"category"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deprecated TEST - Update Empty Name",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/**\r",
+									" * Respuesta en forma de JSON\r",
+									" */\r",
+									"var json = pm.response.json();\r",
+									"\r",
+									"/**\r",
+									" * HTTP Status\r",
+									" * Comprueba el estado HTTP de la respuesta\r",
+									" * @test\r",
+									" */\r",
+									"pm.test(\"TEST: Código de estado: 400\", function () {\r",
+									"    pm.response.to.be.error;\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"/**\r",
+									" * Comprobación de respuesta\r",
+									" * Comprueba que los datos sean consistentes con la DB\r",
+									" * @test\r",
+									" */\r",
+									"pm.test(\"TEST: Comprobación de respuesta\", function () {\r",
+									"    pm.expect(json).to.have.property(\"message\");\r",
+									"    pm.expect(json.message).to.eql(\"El nombre de la categoría es obligatoria\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"category\" : \"\",\r\n    \"tag\" : \"{{categoryTag1}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/category/{{initialCategoryId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"category",
+								"{{initialCategoryId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deprecated TEST - Update Empty Tag",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/**\r",
+									" * Respuesta en forma de JSON\r",
+									" */\r",
+									"var json = pm.response.json();\r",
+									"\r",
+									"/**\r",
+									" * HTTP Status\r",
+									" * Comprueba el estado HTTP de la respuesta\r",
+									" * @test\r",
+									" */\r",
+									"pm.test(\"TEST: Código de estado: 400\", function () {\r",
+									"    pm.response.to.be.error;\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"/**\r",
+									" * Comprobación de respuesta\r",
+									" * Comprueba que los datos sean consistentes con la DB\r",
+									" * @test\r",
+									" */\r",
+									"pm.test(\"TEST: Comprobación de respuesta\", function () {\r",
+									"    pm.expect(json).to.have.property(\"message\");\r",
+									"    pm.expect(json.message).to.eql(\"El tag es obligatorio\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"category\" : \"{{categoryName1}}\",\r\n    \"tag\" : \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/category/{{initialCategoryId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"category",
+								"{{initialCategoryId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": ""
+		},
+		{
+			"key": "token",
+			"value": ""
+		},
+		{
+			"key": "categoryName2",
+			"value": ""
+		},
+		{
+			"key": "categoryTag2",
+			"value": ""
+		},
+		{
+			"key": "newCategoryTag1",
+			"value": ""
+		},
+		{
+			"key": "newCategoryName1",
+			"value": ""
+		},
+		{
+			"key": "initialCategoryId",
+			"value": ""
+		},
+		{
+			"key": "categoryName1",
+			"value": ""
+		},
+		{
+			"key": "categoryTag1",
+			"value": ""
+		},
+		{
+			"key": "secondId",
+			"value": ""
+		}
+	]
+}
