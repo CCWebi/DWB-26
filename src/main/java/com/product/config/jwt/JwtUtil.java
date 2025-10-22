@@ -9,12 +9,14 @@ import java.util.function.Function;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
+import jakarta.annotation.PostConstruct;
 
 /**
  * Clase de utilidades para JWT's
@@ -26,11 +28,11 @@ public class JwtUtil {
      * Clave provisional
      * @alpha
      */
-    @Value("${jwt.secret.key}")
-	private static final String SECRET_KEY;
+    private static final String SECRET_KEY = "8J+YjvCfpJPwn5ic8J+YmvCfmI3wn6Ww8J+ZgvCfpKM=";
 
     /**
-     * Clave secreta
+     * Clave  decodificada
+     * @alpha
      */
     private static final SecretKey secretKey = new SecretKeySpec(Base64.getDecoder().decode(SECRET_KEY), "HmacSHA256");
 

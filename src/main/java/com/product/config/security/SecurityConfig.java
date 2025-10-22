@@ -40,7 +40,7 @@ public class SecurityConfig {
 		.authorizeHttpRequests(
 				auth -> auth
                 // Docs and extra
-				.requestMatchers("/error", "/swagger-ui/**", "/v3/api-docs/**", "/documentation.html", "/actuator/info", "/actuator/health").permitAll()
+				.requestMatchers("/error", "/swagger-ui/**", "/v3/api-docs/**", "/api-docs", "/documentation.html", "/actuator/info", "/actuator/health").permitAll()
                 // Category
 				.requestMatchers(HttpMethod.GET, "/category/active").hasAnyAuthority("ADMIN", "CUSTOMER")
 				.requestMatchers("/category/**").hasAuthority("ADMIN")
@@ -51,7 +51,7 @@ public class SecurityConfig {
                 .requestMatchers("/customer-image/**").hasAnyAuthority("ADMIN", "CUSTOMER")
 		)
 		.cors(cors -> cors.configurationSource(corsConfig))
-		.httpBasic(Customizer.withDefaults())
+		.httpBasic(AbstractHttpConfigurer::disable)
 		.formLogin(form -> form.disable())
 		.sessionManagement(httpSecuritySessionManagementConfigurer -> httpSecuritySessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 		.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
