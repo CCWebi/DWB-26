@@ -20,18 +20,6 @@ public interface SvcCategory {
     
     /**
      * Obtiene todas las categorías
-     * @deprecated
-     */
-    public ResponseEntity<List<Category>> getCategories();
-
-    /**
-     * Obtiene todas las categorías activas
-     * @deprecated 
-     */
-    public ResponseEntity<List<Category>> getActiveCategories();
-    
-    /**
-     * Obtiene todas las categorías
      */
     public List<Category> findAll();
     

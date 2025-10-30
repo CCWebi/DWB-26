@@ -33,49 +33,6 @@ public class SvcCategoryImp implements SvcCategory {
     private RepoCategory repo;
 
     /**
-     * Constructor de cadenas mutables.
-     * Ayuda con la eficiencia al escribir varios caracteres
-     */
-    private StringBuilder sb;
-
-    /**
-     * Constructor del gestor de categorías
-     */
-    public SvcCategoryImp() {
-        this.sb = new StringBuilder();
-    }
-
-    /**
-     * Regresa una respuesta con la lista con todas categorías
-     * @return Una respuesta con la lista con todas categorías
-     * @estado 200 - Operación realizada con éxito
-     * @deprecated
-     */
-    @Override
-    public ResponseEntity<List<Category>> getCategories() {
-        try {
-            return new ResponseEntity<List<Category>>(repo.getCategories(), HttpStatus.OK);
-        } catch (DataAccessException e) {
-            throw new DBAccessException(e);
-        }
-    }
-    
-    /**
-     * Regresa una respuesta con la lista con las categorías activas
-     * @return Una respuesta con la lista con las categorías activas
-     * @estado 200 - Operación realizada con éxito
-     * @deprecated
-     */
-    @Override
-    public ResponseEntity<List<Category>> getActiveCategories() {
-        try {
-            return new ResponseEntity<List<Category>>(repo.getActiveCategories(), HttpStatus.OK);
-        } catch (DataAccessException e) {
-            throw new DBAccessException(e);
-        }
-    }
-
-    /**
      * Obtiene todas las categorías
      * @return Una lista con todas categorías
      * @estado 200 - Operación realizada con éxito
@@ -179,8 +136,7 @@ public class SvcCategoryImp implements SvcCategory {
      * @throws ApiException si la categoría no existe
      */
     private void validateCategoryId(Integer id) {
-        if (repo.findById(id).isEmpty()) {
+        if (repo.findById(id).isEmpty())
             throw new ApiException(HttpStatus.NOT_FOUND, "El id de la categoría no existe");
-        }
     }
 }
