@@ -1,7 +1,7 @@
 package com.product.api.service;
 
 import com.commons.dto.ApiResponse;
-import com.product.api.dto.DtoCategoryIn;
+import com.product.api.dto.in.DtoCategoryIn;
 import com.product.api.entity.Category;
 import com.product.api.repository.RepoCategory;
 import com.product.exception.DBAccessException;
