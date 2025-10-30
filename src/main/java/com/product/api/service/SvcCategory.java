@@ -9,7 +9,7 @@ import com.product.api.dto.in.DtoCategoryIn;
 import com.commons.dto.ApiResponse;
 
 /**
- * Interfaz dedicvada a clases de servicio para acceso controlado.
+ * Interfaz dedicada a clases de servicio para acceso controlado de categorías.
  * 
  * @author Isaac Robledo R
  * @author Alejandro Sánchez E

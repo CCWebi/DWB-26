@@ -29,7 +29,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
 /**
- * Controlador para producto
+ * Controlador para categoría
  * 
  * @author Isaac Robledo R
  * @author Alejandro Sánchez E
@@ -37,7 +37,7 @@ import jakarta.validation.Valid;
  * @docsTag
  * @beta
  */
-@Tag(name = "Product", description = "Endpoints para productos")
+@Tag(name = "Category", description = "Endpoints relacionados con las categorías de productos")
 @RestController
 @RequestMapping("/category")
 public class CtrlCategory {
@@ -92,7 +92,7 @@ public class CtrlCategory {
             content = { @Content(
                     array = @ArraySchema(schema = @Schema(implementation = Category.class)),
                     mediaType = "aplication/json",
-                    examples = @ExampleObject(value = "{\"category\": \"Mexicana\", \"tag\": \"MX\", \"status\": 1, \"categoryid\": \"3\"}")
+                    examples = @ExampleObject(value = "{\"category\": \"Mexicana\", \"tag\": \"MX\", \"status\": 1, \"categoryid\": 3}")
             )}
         ),
         @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "Ocurrió un error de conexión", content = @Content(mediaType = "text/plain", schema = @Schema(type = "string")))

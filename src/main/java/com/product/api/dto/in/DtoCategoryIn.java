@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotNull;
 
 /**
- * Clase encargada de ser un Objeto de Transferencia de Datos (DTO) para lo relacionado a categorías
+ * Clase encargada de ser un Objeto de Transferencia de Datos (DTO) para lo relacionado a la entrada de datos de categorías
  * 
  * @author Isaac Robledo R
  * @author Alejandro Sánchez E

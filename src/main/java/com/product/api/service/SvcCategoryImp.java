@@ -35,7 +35,7 @@ public class SvcCategoryImp implements SvcCategory {
     /**
      * Obtiene todas las categorías
      * @return Una lista con todas categorías
-     * @estado 200 - Operación realizada con éxito
+     * @throws DBAccessException Al encontrar un error sobre la capa de persistencia
      */
     @Override
     public List<Category> findAll() {
@@ -49,7 +49,7 @@ public class SvcCategoryImp implements SvcCategory {
     /**
      * Obtiene todas las categorías activas
      * @return Una lista con las categorías activas
-     * @estado 200 - Operación realizada con éxito
+     * @throws DBAccessException Al encontrar un error sobre la capa de persistencia
      */
     @Override
     public List<Category> findActive() {
@@ -62,10 +62,11 @@ public class SvcCategoryImp implements SvcCategory {
     
     /**
      * Crea una categoría
-     * @return Una respuesta que indíca el éxito o error en la operación
-     * @estado 200 - La categoría ha sido registrada
-     * @estado 409 - Nombre de la categoría repetida
-     * @estado 409 - Etiqueta de la categoría repetida
+     * @return Una respuesta que indíca el éxito en la operación
+     * @throws DBAccessException Al encontrar un error sobre la capa de persistencia
+     * @throws ApiException Al encontrar un error en el contenido de:
+     *                      El nombre de la categoría
+     *                      La etiqueta de la categoría
      */
     public ApiResponse create(DtoCategoryIn in) {
         try {
@@ -73,20 +74,20 @@ public class SvcCategoryImp implements SvcCategory {
             return new ApiResponse("La categoría ha sido registrada");
         } catch (DataAccessException e) {
             if (e.getLocalizedMessage().contains("ux_category"))
-                throw new ApiException(HttpStatus.CONFLICT, "El nombre de la categoría ya está registrado");
+            throw new ApiException(HttpStatus.CONFLICT, "El nombre de la categoría ya está registrado");
             if (e.getLocalizedMessage().contains("ux_tag"))
-                throw new ApiException(HttpStatus.CONFLICT, "El tag de la categoría ya está registrado");
+            throw new ApiException(HttpStatus.CONFLICT, "El tag de la categoría ya está registrado");
             throw new DBAccessException(e);
         }
     }
     
     /**
      * Actualiza una categoría
-     * @return Una respuesta que indíca el éxito o error en la operación
-     * @estado 200 - La categoría ha sido actualizada
-     * @estado 404 - ID no encontrado
-     * @estado 409 - Nombre de la categoría repetida
-     * @estado 409 - Etiqueta de la categoría repetida
+     * @return Una respuesta que indíca el éxito en la operación
+     * @throws ApiException Al encontrar un error en el contenido de:
+     *                      El identificador de la categoría
+     *                      Campo ya registrado en el nombre de la categoría
+     *                      Campo ya registrado en la etiqueta de la categoría
      */
     public ApiResponse update(DtoCategoryIn in, Integer id) {
         try {
@@ -100,9 +101,9 @@ public class SvcCategoryImp implements SvcCategory {
     
     /**
      * Habilita una categoría
-     * @return Una respuesta que indíca el éxito o error en la operación
-     * @estado 200 - La categoría ha sido activada
-     * @estado 404 - ID no encontrado
+     * @return Una respuesta que indíca el éxito en la operación
+     * @throws ApiException Al encontrar un error en el contenido de:
+     *                      El identificador de la categoría
      */
     public ApiResponse enable(Integer id) {
         try {
@@ -117,8 +118,8 @@ public class SvcCategoryImp implements SvcCategory {
     /**
      * Deshabilita una categoría
      * @return Una respuesta que indíca el éxito o error en la operación
-     * @estado 200 - La categoría ha sido desactivada
-     * @estado 404 - ID no encontrado
+     * @throws ApiException Al encontrar un error en el contenido de:
+     *                      El identificador de la categoría
      */
     public ApiResponse disable(Integer id) {
         try {
@@ -131,9 +132,9 @@ public class SvcCategoryImp implements SvcCategory {
     }
 
     /**
-     * Valida que el ID de la categoría exista
-     * @param id Identificador de la categoría a validar
-     * @throws ApiException si la categoría no existe
+     * Valida que el Identificador de la categoría exista
+     * @param id identificador de la categoría a validar
+     * @throws ApiException Si el identificador de la categoría no está registrado
      */
     private void validateCategoryId(Integer id) {
         if (repo.findById(id).isEmpty())
