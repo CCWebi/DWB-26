@@ -79,6 +79,7 @@ public class CtrlProduct {
 
 	/**
 	 * Regresa la información del producto buscado
+     * @param id identificador del producto (visto en el path)
 	 * @return La información del producto buscado
 	 * @mapeo /product/{id}
 	 * @metodoHTTP GET
@@ -105,6 +106,7 @@ public class CtrlProduct {
 
 	/**
      * Crea un producto
+     * @param in objeto de transferencia de entrada que representa un producto (body)
      * @return Una respuesta de éxito o fallo
      * @mapeo /product
      * @metodoHTTP POST
@@ -127,6 +129,8 @@ public class CtrlProduct {
 
 	/**
      * Actualiza los datos de un producto
+     * @param id identificador del producto (visto en el path)
+     * @param in objeto de transferencia de entrada que representa un producto (body)
      * @return Una respuesta de éxito o fallo
      * @mapeo /product/{id}
      * @metodoHTTP PUT
@@ -151,6 +155,7 @@ public class CtrlProduct {
 
     /**
      * Habilita un producto
+     * @param id identificador del producto (visto en el path)
      * @return Una respuesta de éxito o fallo
      * @mapeo /product/{id}/enable
      * @metodoHTTP PATCH
@@ -171,6 +176,7 @@ public class CtrlProduct {
 
 	/**
      * Deshabilita un producto
+     * @param id identificador del producto (visto en el path)
      * @return Una respuesta de éxito o fallo
      * @mapeo /product/{id}/disable
      * @metodoHTTP PATCH

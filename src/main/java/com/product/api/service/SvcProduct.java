@@ -34,35 +34,39 @@ public interface SvcProduct {
 	 * @return Una respuesta con los datos de un producto específico dado su identificador
 	 * @throws DBAccessException Al encontrar un error sobre la capa de persistencia
 	 * @throws ApiException Al encontrar un error en el contenido de:
-	 * 						El identificador del producto
+	 *                      El identificador del producto
 	 */
 	public ResponseEntity<DtoProductOut> getProduct(Integer id);
 
 	/**
      * Crea un producto
+     * @param in objeto de transferencia de un producto
      * @return Una respuesta que indíca el éxito en la operación
      * @throws DBAccessException Al encontrar un error sobre la capa de persistencia
      * @throws ApiException Al encontrar un error en el contenido de:
      *                      El GTIN del producto
      *                      El nombre del producto
-	 * 						El identificador de la categoría asociado al producto
+	 *                      El identificador de la categoría asociado al producto
      */
-	public ResponseEntity<ApiResponse> createProduct(DtoProductIn in);
+    public ResponseEntity<ApiResponse> createProduct(DtoProductIn in);
 
 	/**
      * Actualiza un producto
+     * @param in objeto de transferencia de una categoría
+     * @param id identificador del producto
      * @return Una respuesta que indíca el éxito en la operación
 	 * @throws DBAccessException Al encontrar un error sobre la capa de persistencia
      * @throws ApiException Al encontrar un error en el contenido de:
-	 * 						El identificador del producto
+	 * 				        El identificador del producto
      *                      Campo ya registrado en el GTIN del producto
      *                      Campo ya registrado en el nombre del producto
-	 * 						El identificador de la categoría asociado al producto
+	 * 				        El identificador de la categoría asociado al producto
      */
 	public ResponseEntity<ApiResponse> updateProduct(Integer id, DtoProductIn in);
 
 	/**
      * Habilita un producto
+     * @param id identificador del producto
      * @return Una respuesta que indíca el éxito en la operación
 	 * @throws DBAccessException Al encontrar un error sobre la capa de persistencia
      * @throws ApiException Al encontrar un error en el contenido de:
@@ -72,6 +76,7 @@ public interface SvcProduct {
 
 	/**
      * Deshabilita un producto
+     * @param id identificador del producto
      * @return Una respuesta que indíca el éxito en la operación
 	 * @throws DBAccessException Al encontrar un error sobre la capa de persistencia
      * @throws ApiException Al encontrar un error en el contenido de:

@@ -41,7 +41,7 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping("/category")
 public class CtrlCategory {
-    
+
     /**
      * Clase de servicio para categorías.
      */
@@ -104,6 +104,7 @@ public class CtrlCategory {
 
     /**
      * Crea una categoría
+     * @param in objeto de transferencia de entrada que representa una categoría (body)
      * @return Una respuesta de éxito o fallo
      * @mapeo /category
      * @metodoHTTP POST
@@ -126,6 +127,8 @@ public class CtrlCategory {
 
     /**
      * Actualiza los datos de una categoría
+     * @param in objeto de transferencia de entrada que representa una categoría (body)
+     * @param id identificador de la categoría (visto en el path)
      * @return Una respuesta de éxito o fallo
      * @mapeo /category/{id}
      * @metodoHTTP PUT
@@ -150,6 +153,7 @@ public class CtrlCategory {
 
     /**
      * Habilita una categoría
+     * @param id identificador de la categoría (visto en el path)
      * @return Una respuesta de éxito o fallo
      * @mapeo /category/{id}/enable
      * @metodoHTTP PATCH
@@ -170,6 +174,7 @@ public class CtrlCategory {
 
     /**
      * Deshabilita una categoría
+     * @param id identificador de la categoría (visto en el path)
      * @return Una respuesta de éxito o fallo
      * @mapeo /category/{id}/disable
      * @metodoHTTP PATCH

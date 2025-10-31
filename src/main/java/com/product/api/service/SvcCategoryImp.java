@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
  * 
  * @author Isaac Robledo R
  * @author Alejandro Sánchez E
- * @version 0.5.0
+ * @version 0.7.0
  * @beta
  */
 @Service
@@ -62,6 +62,7 @@ public class SvcCategoryImp implements SvcCategory {
     
     /**
      * Crea una categoría
+     * @param in objeto de transferencia de una categoría
      * @return Una respuesta que indíca el éxito en la operación
      * @throws DBAccessException Al encontrar un error sobre la capa de persistencia
      * @throws ApiException Al encontrar un error en el contenido de:
@@ -83,6 +84,8 @@ public class SvcCategoryImp implements SvcCategory {
     
     /**
      * Actualiza una categoría
+     * @param in objeto de transferencia de una categoría
+     * @param id identificador de la categoría buscada
      * @return Una respuesta que indíca el éxito en la operación
      * @throws ApiException Al encontrar un error en el contenido de:
      *                      El identificador de la categoría
@@ -101,6 +104,7 @@ public class SvcCategoryImp implements SvcCategory {
     
     /**
      * Habilita una categoría
+     * @param id identificador de la categoría buscada
      * @return Una respuesta que indíca el éxito en la operación
      * @throws ApiException Al encontrar un error en el contenido de:
      *                      El identificador de la categoría
@@ -117,6 +121,7 @@ public class SvcCategoryImp implements SvcCategory {
     
     /**
      * Deshabilita una categoría
+     * @param id identificador de la categoría buscada
      * @return Una respuesta que indíca el éxito o error en la operación
      * @throws ApiException Al encontrar un error en el contenido de:
      *                      El identificador de la categoría
@@ -130,7 +135,7 @@ public class SvcCategoryImp implements SvcCategory {
             throw new DBAccessException(e);
         }
     }
-
+    
     /**
      * Valida que el Identificador de la categoría exista
      * @param id identificador de la categoría a validar
