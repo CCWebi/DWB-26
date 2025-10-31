@@ -1,7 +1,10 @@
 package com.product.api.service;
 
+import java.util.List;
+
 import com.commons.dto.ApiResponse;
 import com.product.api.dto.in.DtoProductImageIn;
+import com.product.api.entity.ProductImage;
 import com.product.exception.ApiException;
 import com.product.exception.DBAccessException;
 
@@ -14,6 +17,17 @@ import com.product.exception.DBAccessException;
  * @beta
  */
 public interface SvcProductImage {
+    
+    /**
+     * Obtiene la lista de imagenes de un producto dado
+     * @param id identificador del producto
+     * @return Una respuesta que indíca el éxito en la operación
+     * @throws DBAccessException Al encontrar un error sobre la capa de persistencia
+     * @throws ApiException Al encontrar un error en el contenido de:
+     *                      Al codificar las imagenes
+     *                      El identificador del producto
+     */
+    public List<ProductImage> findAll(Integer id);
 
     /**
      * Sube una imagen para un producto
@@ -24,17 +38,6 @@ public interface SvcProductImage {
      *                      Al guardar archivo
      */
     public ApiResponse upload(DtoProductImageIn in);
-
-    /**
-     * Obtiene la lista de imagenes de un producto dado
-     * @param id identificador del producto
-     * @return Una respuesta que indíca el éxito en la operación
-     * @throws DBAccessException Al encontrar un error sobre la capa de persistencia
-     * @throws ApiException Al encontrar un error en el contenido de:
-     *                      Al codificar las imagenes
-     *                      El identificador del producto
-     */
-    public ApiResponse findAll(Integer id);
 
     /**
      * Elimina una imagen de un producto

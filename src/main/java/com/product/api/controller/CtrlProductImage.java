@@ -1,5 +1,7 @@
 package com.product.api.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -64,7 +66,7 @@ public class CtrlProductImage {
         @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "Ocurrió un error de conexión", content = @Content(mediaType = "text/plain", schema = @Schema(type = "string")))
     })
     @GetMapping
-    public ResponseEntity<ApiResponse> getProductImages(@PathVariable Integer id) {
+    public ResponseEntity<List<ProductImage>> getProductImages(@PathVariable Integer id) {
         return ResponseEntity.ok(svc.findAll(id));
     }
     

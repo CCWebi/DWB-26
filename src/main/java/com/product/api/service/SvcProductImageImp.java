@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Base64;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import com.commons.dto.ApiResponse;
 import com.product.api.dto.in.DtoProductImageIn;
 import com.product.api.entity.ProductImage;
+import com.product.api.repository.RepoProduct;
 import com.product.api.repository.RepoProductImage;
 import com.product.exception.ApiException;
 import com.product.exception.DBAccessException;
@@ -37,12 +39,34 @@ public class SvcProductImageImp implements SvcProductImage {
 	@Autowired
 	RepoProductImage repo;
 
+    @Autowired
+    RepoProduct repoProduct;
+
     /**
      * Ruta del directorio para almacenar imagenes de producto
      */
     @Value("${app.upload.dir}")
     private String uploadDir;
 
+    /**
+     * Obtiene la lista de imagenes de un producto dado
+     * @param id identificador del producto
+     * @return Una respuesta que indíca el éxito en la operación
+     * @throws DBAccessException Al encontrar un error sobre la capa de persistencia
+     * @throws ApiException Al encontrar un error en el contenido de:
+     *                      Al codificar las imagenes
+     *                      El identificador del producto
+     */
+    @Override
+    public List<ProductImage> findAll(Integer id) {
+        try {
+            validateProductId(id);
+
+            return repo.findByProductIdOrderByProductAsc(id);
+        } catch (DataAccessException e) {
+            throw new DBAccessException(e);
+        }
+    }
 
     /**
      * Sube una imagen para un producto
@@ -55,6 +79,8 @@ public class SvcProductImageImp implements SvcProductImage {
 	@Override
 	public ApiResponse upload(DtoProductImageIn in) {
 		try {
+            validateProductId(in.getProduct_id());
+
 		    // Decodifica la cadena Base64 a bytes
             byte[] imageBytes = Base64.getDecoder().decode(in.getImage());
 
@@ -71,7 +97,6 @@ public class SvcProductImageImp implements SvcProductImage {
             Files.write(imagePath, imageBytes);
 
             ProductImage productImage = new ProductImage();
-            productImage.setProductImage_id(in.getProductImage_id());
             productImage.setImage("/" + uploadDir + "/img/customer/" + fileName);
             productImage.setStatus(1); 
 
@@ -92,5 +117,58 @@ public class SvcProductImageImp implements SvcProductImage {
             throw new ApiException(HttpStatus.INTERNAL_SERVER_ERROR, "Error al guardar el archivo");
         }
 	}
+
+    /**
+     * Elimina una imagen de un producto
+     * @param id identificador del producto
+     * @param product_image_id identificador de la imagen del producto
+     * @return Una respuesta que indica el éxito en la operación
+     * @throws ApiException Al encontrar un error en el contenido de:
+     *                      El identificador del producto
+     *                      El identificador de la imagen de producto
+     *                      La ruta de la imagen
+     */
+    public ApiResponse delete(Integer id, Integer product_image_id) {
+        try {
+        validateProductImageId(product_image_id);
+        validateProductId(id);
+        validateRelation(id, product_image_id);
+
+        repo.deleteById(product_image_id);
+        return new ApiResponse("La imagen ha sido eliminada");
+        } catch (DataAccessException e) {
+            throw new DBAccessException(e);
+        }
+    }
+
+    /**
+     * Valida que el Identificador de la imagen de producto exista
+     * @param id identificador de la imagen de producto a validar
+     * @throws ApiException Si el identificador de la imagen de producto no está registrado
+     */
+    private void validateProductImageId(Integer id) {
+        if (repo.findById(id).isEmpty())
+            throw new ApiException(HttpStatus.NOT_FOUND, "El id de la imagen de producto no existe");
+    }
+
+    /**
+     * Valida que el Identificador del producto exista
+     * @param id identificador del producto a validar
+     * @throws ApiException Si el identificador del producto no está registrado
+     */
+    private void validateProductId(Integer id) {
+        if (repoProduct.findById(id).isEmpty())
+            throw new ApiException(HttpStatus.NOT_FOUND, "El id del producto no existe");
+    }
+
+    /**
+     * Valida que el Identificador del producto exista
+     * @param id identificador de la imagen de producto a validar
+     * @throws ApiException Si el identificador del producto no está registrado
+     */
+    private void validateRelation(Integer id, Integer product_image_id) {
+        if (repo.findById(product_image_id).get().getProduct_id() != id)
+            throw new ApiException(HttpStatus.BAD_REQUEST, "La imagen no corresponde al producto buscado");
+    }
 }
 

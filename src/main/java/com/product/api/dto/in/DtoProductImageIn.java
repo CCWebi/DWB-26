@@ -16,9 +16,9 @@ public class DtoProductImageIn {
     /**
      * Identificador de la imagen de un producto
      */
-    @JsonProperty("product_image_id")
-	@NotNull(message="El identificador de la imagen de producto es obligatorio")
-    private Integer productImageId;
+    @JsonProperty("product_id")
+	@NotNull(message="El identificador de producto es obligatorio")
+    private Integer productId;
 
     /**
      * Imagen de producto
@@ -28,19 +28,19 @@ public class DtoProductImageIn {
     private String image;
 
     /**
-     * Regresa un identificador de la imagen del producto
-     * @return un identificador de la imagen del producto
+     * Regresa un identificador del producto
+     * @return un identificador del producto
      */
-    public Integer getProductImage_id() {
-        return productImageId;
+    public Integer getProduct_id() {
+        return productId;
     }
 
     /**
-     * Actualiza el identificador de la imagen de producto
-     * @param productImageId identificador de la imagen de producto
+     * Actualiza el identificador del producto
+     * @param productId identificador del producto
      */
-    public void setProductImage_id(Integer productImageId) {
-        this.productImageId = productImageId;
+    public void setProductImage_id(Integer productId) {
+        this.productId = productId;
     }
 
     /**
@@ -53,7 +53,7 @@ public class DtoProductImageIn {
 
     /**
      * Actualiza la imagen de producto
-     * @param productImageId imagen de producto
+     * @param image imagen de producto
      */
     public void setImage(String image) {
         this.image = image;
