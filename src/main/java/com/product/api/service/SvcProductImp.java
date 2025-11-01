@@ -1,8 +1,14 @@
 package com.product.api.service;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Base64;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +20,9 @@ import com.product.api.dto.in.DtoProductIn;
 import com.product.api.dto.out.DtoProductListOut;
 import com.product.api.dto.out.DtoProductOut;
 import com.product.api.entity.Product;
+import com.product.api.entity.ProductImage;
 import com.product.api.repository.RepoProduct;
+import com.product.api.repository.RepoProductImage;
 import com.product.exception.ApiException;
 import com.product.exception.DBAccessException;
 
@@ -29,6 +37,8 @@ import com.product.exception.DBAccessException;
 @Service
 public class SvcProductImp implements SvcProduct{
 
+    private final RepoProductImage repoProductImage;
+
 	/**
 	 * Repositorio para productos
 	 */
@@ -40,6 +50,16 @@ public class SvcProductImp implements SvcProduct{
 	 */
 	@Autowired
 	MapperProduct mapper;
+	
+	/**
+	 * Ruta del directorio para almacenar imagenes
+	 */
+	@Value("${app.upload.dir}")
+	private String uploadDir;
+
+    SvcProductImp(RepoProductImage repoProductImage) {
+        this.repoProductImage = repoProductImage;
+    }
 
 	/**
      * Obtiene una respuesta con todos los productos
@@ -67,9 +87,14 @@ public class SvcProductImp implements SvcProduct{
 	@Override
 	public ResponseEntity<DtoProductOut> getProduct(Integer id) {
 		try {
-			validateProductId(id);
+			DtoProductOut product = repo.getProduct(id);
+			if(product == null)
+				throw new ApiException(HttpStatus.NOT_FOUND, "El id del producto no existe");
 			
-			return new ResponseEntity<>(null, HttpStatus.OK);
+			String image = readProductImageFile(id);
+			product.setImage(image);
+			
+			return new ResponseEntity<>(product, HttpStatus.OK);
 		} catch (DataAccessException e) {
 			throw new DBAccessException(e);
 		}
@@ -89,7 +114,14 @@ public class SvcProductImp implements SvcProduct{
 	public ResponseEntity<ApiResponse> createProduct(DtoProductIn in) {
 		try {
 			Product product = mapper.fromDto(in);
-			repo.save(product);
+			product = repo.save(product);
+			
+			ProductImage productImage = new ProductImage();
+			productImage.setProduct_id(product.getProduct_id());
+			productImage.setImage("");
+			productImage.setStatus(1);
+			repoProductImage.save(productImage);
+			
 			return new ResponseEntity<>(new ApiResponse("El producto ha sido registrado"), HttpStatus.CREATED);
 		} catch (DataAccessException e) {
 			if (e.getLocalizedMessage().contains("ux_product_gtin"))
@@ -188,6 +220,44 @@ public class SvcProductImp implements SvcProduct{
 				throw new ApiException(HttpStatus.NOT_FOUND, "El id del producto no existe");
 		} catch (DataAccessException e) {
 			throw new DBAccessException(e);
+		}
+	}
+	
+	/**
+	 * Lee la imagen de un producto y la convierte a Base64
+	 * @param product_id identificador del producto
+	 * @return La imagen del producto en formato Base64, o cadena vacía si no existe
+	 * @throws DBAccessException Al encontrar un error sobre la capa de persistencia
+	 * @throws ApiException Al encontrar un error al leer el archivo
+	 */
+	private String readProductImageFile(Integer product_id) {
+		try {
+			ProductImage productImage = repoProductImage.findByProductId(product_id);
+			if(productImage == null)
+				return "";
+			
+			String imageUrl = productImage.getImage();
+			
+			// Si la URL comienza con "/" la eliminamos para obtener la ruta relativa
+			if (imageUrl.startsWith("/")) {
+				imageUrl = imageUrl.substring(1);
+			}
+			
+			// Construir el Path
+			Path imagePath = Paths.get(uploadDir, imageUrl);
+			
+			// Verifica que el archivo exista
+			if (!Files.exists(imagePath))
+				return "";
+			
+			// Leer los bytes de la imagen y codificarlos a Base64
+			byte[] imageBytes = Files.readAllBytes(imagePath);
+			return Base64.getEncoder().encodeToString(imageBytes);
+			
+		} catch (DataAccessException e) {
+			throw new DBAccessException(e);
+		} catch (IOException e) {
+			throw new ApiException(HttpStatus.INTERNAL_SERVER_ERROR, "Error al leer el archivo");
 		}
 	}
 

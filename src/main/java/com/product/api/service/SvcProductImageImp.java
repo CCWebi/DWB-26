@@ -79,7 +79,9 @@ public class SvcProductImageImp implements SvcProductImage {
 	@Override
 	public ApiResponse upload(DtoProductImageIn in) {
 		try {
-            validateProductId(in.getProduct_id());
+            ProductImage productImage = repo.findByProductId(in.getProduct_id());
+            if(productImage == null)
+                throw new ApiException(HttpStatus.NOT_FOUND, "El id del producto no existe");
 
 		    // Decodifica la cadena Base64 a bytes
             byte[] imageBytes = Base64.getDecoder().decode(in.getImage());
@@ -96,7 +98,7 @@ public class SvcProductImageImp implements SvcProductImage {
             // Escribir el archivo en el sistema de archivos
             Files.write(imagePath, imageBytes);
 
-            ProductImage productImage = new ProductImage();
+            productImage = new ProductImage();
             productImage.setImage("/" + uploadDir + "/img/customer/" + fileName);
             productImage.setStatus(1); 
 
