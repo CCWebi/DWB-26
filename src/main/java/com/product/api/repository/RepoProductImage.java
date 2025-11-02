@@ -23,7 +23,7 @@ public interface RepoProductImage extends JpaRepository<ProductImage, Integer> {
      * @param id identificador del producto
      * @return Todas las imagenes de un producto con id dado, a manera de lista
      */
-    List<ProductImage> findByProductIdOrderByProductAsc(Integer id);
+    List<ProductImage> findByProductIdOrderByProductImageIdAsc(Integer id);
 
 
     /**

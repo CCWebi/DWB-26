@@ -62,7 +62,7 @@ public class SvcProductImageImp implements SvcProductImage {
         try {
             validateProductId(id);
 
-            return repo.findByProductIdOrderByProductAsc(id);
+            return repo.findByProductIdOrderByProductImageIdAsc(id);
         } catch (DataAccessException e) {
             throw new DBAccessException(e);
         }
