@@ -1,8 +1,11 @@
 package com.product.api.service;
 
+import com.commons.dto.ApiResponse;
+import com.product.api.dto.DtoCategoryIn;
 import com.product.api.entity.Category;
 import com.product.api.repository.RepoCategory;
 import com.product.exception.DBAccessException;
+import com.product.exception.ApiException;
 
 import java.util.List;
 
@@ -17,7 +20,7 @@ import org.springframework.stereotype.Service;
  * 
  * @author Isaac Robledo R
  * @author Alejandro Sánchez E
- * @version 0.4.0
+ * @version 0.5.0
  * @beta
  */
 @Service
@@ -43,31 +46,10 @@ public class SvcCategoryImp implements SvcCategory {
     }
 
     /**
-     * Imprime las categorías activas (status 1).
-     * Si no hay categorías activas, muestra un mensaje indicando que no existen
-     */
-    public void printActiveCategories() {
-        sb.setLength(0);
-        List<Category> activeCategories = getActiveCategories().getBody();
-        
-        if (activeCategories.isEmpty())
-            System.out.println("No existen categorías registradas");
-        else {
-            sb.append("[");
-            for (int i = 0; i < activeCategories.size(); i++) {
-                sb.append(activeCategories.get(i).toString());
-                if (i < activeCategories.size() - 1)
-                    sb.append(", ");
-            }
-            sb.append("]");
-            System.out.println(sb.toString());
-        }
-    }
-
-    /**
      * Regresa una respuesta con la lista con todas categorías
      * @return Una respuesta con la lista con todas categorías
      * @estado 200 - Operación realizada con éxito
+     * @deprecated
      */
     @Override
     public ResponseEntity<List<Category>> getCategories() {
@@ -82,6 +64,7 @@ public class SvcCategoryImp implements SvcCategory {
      * Regresa una respuesta con la lista con las categorías activas
      * @return Una respuesta con la lista con las categorías activas
      * @estado 200 - Operación realizada con éxito
+     * @deprecated
      */
     @Override
     public ResponseEntity<List<Category>> getActiveCategories() {
@@ -93,110 +76,111 @@ public class SvcCategoryImp implements SvcCategory {
     }
 
     /**
-     * Regresa un arreglo con todas categorías
-     * @return Un arreglo con todas categorías
+     * Obtiene todas las categorías
+     * @return Una lista con todas categorías
+     * @estado 200 - Operación realizada con éxito
      */
-    public Category[] getCategoriesArray() {
-        return getCategories().getBody().toArray(new Category[0]);
-    }
-
-    /**
-     * Regresa un arreglo con las categorías activas
-     * @return Un arreglo con las categorías activas
-     */
-    public Category[] getActiveCategoriesArray() {
-        return getActiveCategories().getBody().toArray(new Category[0]);
-    }
-
-    /**
-     * Crea una Category.
-     * El atributo <code>status</code>, por defecto es 1
-     * @param category_id Identificador de la categoría
-     * @param category Nombre de la categoría
-     * @param tag Etiqueta de la categoría
-     * @return <code>true</code> si fue creado con éxito, <code>false</code> si ocurrió un error
-     * @throws IllegalArgumentException si los parámetros son inválidos
-     */
-    public boolean createCategory(Integer category_id, String category, String tag) {
-        return createCategory(new Category(category_id, category, tag, 1));
-    }
-
-    /**
-     * Crea una nueva categoría
-     * @param newCategory La nueva categoría a crear
-     * @return true si la categoría fue creada exitosamente, false si ya existe o es nula
-     */
-    private boolean createCategory(Category newCategory) {
-        if (newCategory == null) {
-            return false;
+    @Override
+    public List<Category> findAll() {
+        try {
+            return repo.findAll();
+        } catch (DataAccessException e) {
+            throw new DBAccessException(e);
         }
-        // Verificar unicidad de category_id, category y tag
-        for (Category existing : getCategories().getBody()) {
-            if (existing.getCategoryId().equals(newCategory.getCategoryId()) ||
-                existing.getCategory().equalsIgnoreCase(newCategory.getCategory()) ||
-                existing.getTag().equalsIgnoreCase(newCategory.getTag())) {
-                return false;
-            }
+    }
+    
+    /**
+     * Obtiene todas las categorías activas
+     * @return Una lista con las categorías activas
+     * @estado 200 - Operación realizada con éxito
+     */
+    @Override
+    public List<Category> findActive() {
+        try {
+            return repo.findByStatusOrderByCategoryAsc(1);
+        } catch (DataAccessException e) {
+            throw new DBAccessException(e);
         }
-        getCategories().getBody().add(newCategory);
-        return true;
+    }
+    
+    /**
+     * Crea una categoría
+     * @return Una respuesta que indíca el éxito o error en la operación
+     * @estado 200 - La categoría ha sido registrada
+     * @estado 409 - Nombre de la categoría repetida
+     * @estado 409 - Etiqueta de la categoría repetida
+     */
+    public ApiResponse create(DtoCategoryIn in) {
+        try {
+            repo.create(in.getCategory(), in.getTag());
+            return new ApiResponse("La categoría ha sido registrada");
+        } catch (DataAccessException e) {
+            if (e.getLocalizedMessage().contains("ux_category"))
+                throw new ApiException(HttpStatus.CONFLICT, "El nombre de la categoría ya está registrado");
+            if (e.getLocalizedMessage().contains("ux_tag"))
+                throw new ApiException(HttpStatus.CONFLICT, "El tag de la categoría ya está registrado");
+            throw new DBAccessException(e);
+        }
+    }
+    
+    /**
+     * Actualiza una categoría
+     * @return Una respuesta que indíca el éxito o error en la operación
+     * @estado 200 - La categoría ha sido actualizada
+     * @estado 404 - ID no encontrado
+     * @estado 409 - Nombre de la categoría repetida
+     * @estado 409 - Etiqueta de la categoría repetida
+     */
+    public ApiResponse update(DtoCategoryIn in, Integer id) {
+        try {
+            validateCategoryId(id);
+            repo.update(id, in.getCategory(), in.getTag());
+            return new ApiResponse("La categoría ha sido actualizada");
+        } catch (DataAccessException e) {
+            throw new ApiException(HttpStatus.NOT_FOUND, "El id de la categoría no existe");
+        }
+    }
+    
+    /**
+     * Habilita una categoría
+     * @return Una respuesta que indíca el éxito o error en la operación
+     * @estado 200 - La categoría ha sido activada
+     * @estado 404 - ID no encontrado
+     */
+    public ApiResponse enable(Integer id) {
+        try {
+            validateCategoryId(id);
+            repo.updateStatus(id, 1);
+            return new ApiResponse("La categoría ha sido activada");
+        } catch (DataAccessException e) {
+            throw new DBAccessException(e);
+        }
+    }
+    
+    /**
+     * Deshabilita una categoría
+     * @return Una respuesta que indíca el éxito o error en la operación
+     * @estado 200 - La categoría ha sido desactivada
+     * @estado 404 - ID no encontrado
+     */
+    public ApiResponse disable(Integer id) {
+        try {
+            validateCategoryId(id);
+            repo.updateStatus(id, 0);
+            return new ApiResponse("La categoría ha sido desactivada");
+        } catch (DataAccessException e) {
+            throw new DBAccessException(e);
+        }
     }
 
     /**
-     * Elimina una categoría por su ID
-     * @param categoryId El ID de la categoría a eliminar
-     * @return true si la categoría fue eliminada exitosamente, false si no existe o el ID es nulo
+     * Valida que el ID de la categoría exista
+     * @param id Identificador de la categoría a validar
+     * @throws ApiException si la categoría no existe
      */
-    public boolean deleteCategory(Integer categoryId) {
-        if (categoryId == null)
-            return false;
-        for (Category category : getCategories().getBody()) {
-            if (category.getCategoryId().equals(categoryId)) {
-                if (category.getStatus() == 0)
-                    throw new IllegalStateException("El intento es fallido, pues la categoría está inactiva");
-                category.setStatus(0);
-                return true;
-            }
+    private void validateCategoryId(Integer id) {
+        if (repo.findById(id).isEmpty()) {
+            throw new ApiException(HttpStatus.NOT_FOUND, "El id de la categoría no existe");
         }
-        return false;
-    }
-
-    /**
-     * Verifica si un ID es único
-     * @param id El ID a verificar
-     * @return true si es único, false si ya existe
-     */
-    private boolean isIdUnique(Integer id) {
-        for (Category category : getCategories().getBody()) {
-            if (category.getCategoryId().equals(id))
-                return false;
-        }
-        return true;
-    }
-
-    /**
-     * Verifica si un nombre de categoría es único
-     * @param category El nombre a verificar
-     * @return true si es único, false si ya existe
-     */
-    private boolean isCategoryUnique(String category) {
-        for (Category existing : getCategories().getBody()) {
-            if (existing.getCategory().equalsIgnoreCase(category))
-                return false;
-        }
-        return true;
-    }
-
-    /**
-     * Verifica si un tag es único
-     * @param tag El tag a verificar
-     * @return true si es único, false si ya existe
-     */
-    private boolean isTagUnique(String tag) {
-        for (Category existing : getCategories().getBody()) {
-            if (existing.getTag().equalsIgnoreCase(tag))
-                return false;
-        }
-        return true;
     }
 }
