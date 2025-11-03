@@ -75,9 +75,9 @@ public class SvcCategoryImp implements SvcCategory {
             return new ApiResponse("La categoría ha sido registrada");
         } catch (DataAccessException e) {
             if (e.getLocalizedMessage().contains("ux_category"))
-            throw new ApiException(HttpStatus.CONFLICT, "El nombre de la categoría ya está registrado");
+                throw new ApiException(HttpStatus.CONFLICT, "El nombre de la categoría ya está registrado");
             if (e.getLocalizedMessage().contains("ux_tag"))
-            throw new ApiException(HttpStatus.CONFLICT, "El tag de la categoría ya está registrado");
+                throw new ApiException(HttpStatus.CONFLICT, "El tag de la categoría ya está registrado");
             throw new DBAccessException(e);
         }
     }
