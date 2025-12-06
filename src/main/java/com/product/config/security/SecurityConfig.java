@@ -3,8 +3,6 @@ package com.product.config.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -40,15 +38,13 @@ public class SecurityConfig {
 		.authorizeHttpRequests(
 				auth -> auth
                 // Docs and extra
-				.requestMatchers("/error", "/swagger-ui/**", "/v3/api-docs/**", "/api-docs", "/documentation.html", "/actuator/info", "/actuator/health").permitAll()
+				.requestMatchers("/error", "/swagger-ui/**", "/v3/api-docs/**", "/api-docs/**", "/documentation.html").permitAll()
                 // Category
-				.requestMatchers(HttpMethod.GET, "/category/active").hasAnyAuthority("ADMIN", "CUSTOMER")
-				.requestMatchers("/category/**").hasAuthority("ADMIN")
-                // Customer
-                .requestMatchers(HttpMethod.GET, "/customer/*").hasAnyAuthority("ADMIN", "CUSTOMER")
-                .requestMatchers("/customer/**").hasAuthority("ADMIN")
-                // Customer images
-                .requestMatchers("/customer-image/**").hasAnyAuthority("ADMIN", "CUSTOMER")
+				.requestMatchers("/category/**").permitAll()
+                // Product
+				.requestMatchers("/product/**").permitAll()
+                // Product images
+                .requestMatchers("/product-image/**").permitAll()
 		)
 		.cors(cors -> cors.configurationSource(corsConfig))
 		.httpBasic(AbstractHttpConfigurer::disable)

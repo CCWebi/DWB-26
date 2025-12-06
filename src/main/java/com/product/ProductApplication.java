@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 /**
  * Aplicación Spring
  */
-@SpringBootApplication(scanBasePackages={"com.product"})
+@SpringBootApplication(scanBasePackages={"com.product", "com.commons"})
 public class ProductApplication {
 
 	/**

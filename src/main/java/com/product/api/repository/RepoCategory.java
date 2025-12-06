@@ -21,20 +21,6 @@ import jakarta.transaction.Transactional;
  */
 @Repository
 public interface RepoCategory extends JpaRepository<Category, Integer> {
-    
-    /**
-     * Obtiene todas las categorías
-     * @deprecated
-     */
-    @Query(value = "SELECT * FROM category ORDER BY category", nativeQuery = true)
-    List<Category> getCategories();
-
-    /**
-     * Obtiene todas las categorías activas
-     * @deprecated
-     */
-    @Query(value = "SELECT * FROM category WHERE status=1 ORDER BY category", nativeQuery = true)
-    List<Category> getActiveCategories();
 
     /**
      * Obtiene todas las categorías

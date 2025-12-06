@@ -21,14 +21,13 @@ import jakarta.validation.constraints.NotNull;
 @Table(name = "category")
 public class Category {
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     /**
      * Identificador de la categoría
      */
     @JsonProperty("category_id")
-    @Column(name = "category_id")
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "category_id")
     private Integer category_id;
 
     /**
@@ -47,7 +46,6 @@ public class Category {
     
     /**
      * Estado de la categoría
-     * @hidden
      */
     @JsonProperty("status")
     @Column(name = "status")
@@ -84,8 +82,8 @@ public class Category {
     }
 
     /**
-     * Regresa el Estado de la categoría
-     * @return El Estado de la categoría
+     * Regresa el estado de la categoría
+     * @return El estado de la categoría
      */
     public Integer getStatus() {
         return status;
@@ -93,7 +91,7 @@ public class Category {
 
     /**
      * Actualiza el identificador de la categoría
-     * @param category_id Identificador de la categoría
+     * @param category_id identificador de la categoría
      */
     public void setCategory_id(Integer category_id) {
         this.category_id = category_id;
@@ -101,7 +99,7 @@ public class Category {
 
     /**
      * Actualiza el nombre de la categoría
-     * @param category Nombre de la categoría
+     * @param category nombre de la categoría
      */
     public void setCategory(String category) {
         this.category = category;
@@ -109,7 +107,7 @@ public class Category {
 
     /**
      * Actualiza la etiqueta de la categoría
-     * @param tag Etiqueta de la categoría
+     * @param tag etiqueta de la categoría
      */
     public void setTag(String tag) {
         this.tag = tag;

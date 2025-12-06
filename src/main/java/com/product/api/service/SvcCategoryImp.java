@@ -1,7 +1,7 @@
 package com.product.api.service;
 
 import com.commons.dto.ApiResponse;
-import com.product.api.dto.DtoCategoryIn;
+import com.product.api.dto.in.DtoCategoryIn;
 import com.product.api.entity.Category;
 import com.product.api.repository.RepoCategory;
 import com.product.exception.DBAccessException;
@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
  * 
  * @author Isaac Robledo R
  * @author Alejandro Sánchez E
- * @version 0.5.0
+ * @version 0.7.0
  * @beta
  */
 @Service
@@ -33,52 +33,9 @@ public class SvcCategoryImp implements SvcCategory {
     private RepoCategory repo;
 
     /**
-     * Constructor de cadenas mutables.
-     * Ayuda con la eficiencia al escribir varios caracteres
-     */
-    private StringBuilder sb;
-
-    /**
-     * Constructor del gestor de categorías
-     */
-    public SvcCategoryImp() {
-        this.sb = new StringBuilder();
-    }
-
-    /**
-     * Regresa una respuesta con la lista con todas categorías
-     * @return Una respuesta con la lista con todas categorías
-     * @estado 200 - Operación realizada con éxito
-     * @deprecated
-     */
-    @Override
-    public ResponseEntity<List<Category>> getCategories() {
-        try {
-            return new ResponseEntity<List<Category>>(repo.getCategories(), HttpStatus.OK);
-        } catch (DataAccessException e) {
-            throw new DBAccessException(e);
-        }
-    }
-    
-    /**
-     * Regresa una respuesta con la lista con las categorías activas
-     * @return Una respuesta con la lista con las categorías activas
-     * @estado 200 - Operación realizada con éxito
-     * @deprecated
-     */
-    @Override
-    public ResponseEntity<List<Category>> getActiveCategories() {
-        try {
-            return new ResponseEntity<List<Category>>(repo.getActiveCategories(), HttpStatus.OK);
-        } catch (DataAccessException e) {
-            throw new DBAccessException(e);
-        }
-    }
-
-    /**
      * Obtiene todas las categorías
      * @return Una lista con todas categorías
-     * @estado 200 - Operación realizada con éxito
+     * @throws DBAccessException Al encontrar un error sobre la capa de persistencia
      */
     @Override
     public List<Category> findAll() {
@@ -92,7 +49,7 @@ public class SvcCategoryImp implements SvcCategory {
     /**
      * Obtiene todas las categorías activas
      * @return Una lista con las categorías activas
-     * @estado 200 - Operación realizada con éxito
+     * @throws DBAccessException Al encontrar un error sobre la capa de persistencia
      */
     @Override
     public List<Category> findActive() {
@@ -105,10 +62,12 @@ public class SvcCategoryImp implements SvcCategory {
     
     /**
      * Crea una categoría
-     * @return Una respuesta que indíca el éxito o error en la operación
-     * @estado 200 - La categoría ha sido registrada
-     * @estado 409 - Nombre de la categoría repetida
-     * @estado 409 - Etiqueta de la categoría repetida
+     * @param in objeto de transferencia de una categoría
+     * @return Una respuesta que indíca el éxito en la operación
+     * @throws DBAccessException Al encontrar un error sobre la capa de persistencia
+     * @throws ApiException Al encontrar un error en el contenido de:
+     *                      El nombre de la categoría
+     *                      La etiqueta de la categoría
      */
     public ApiResponse create(DtoCategoryIn in) {
         try {
@@ -125,11 +84,13 @@ public class SvcCategoryImp implements SvcCategory {
     
     /**
      * Actualiza una categoría
-     * @return Una respuesta que indíca el éxito o error en la operación
-     * @estado 200 - La categoría ha sido actualizada
-     * @estado 404 - ID no encontrado
-     * @estado 409 - Nombre de la categoría repetida
-     * @estado 409 - Etiqueta de la categoría repetida
+     * @param in objeto de transferencia de una categoría
+     * @param id identificador de la categoría buscada
+     * @return Una respuesta que indíca el éxito en la operación
+     * @throws ApiException Al encontrar un error en el contenido de:
+     *                      El identificador de la categoría
+     *                      Campo ya registrado en el nombre de la categoría
+     *                      Campo ya registrado en la etiqueta de la categoría
      */
     public ApiResponse update(DtoCategoryIn in, Integer id) {
         try {
@@ -143,9 +104,10 @@ public class SvcCategoryImp implements SvcCategory {
     
     /**
      * Habilita una categoría
-     * @return Una respuesta que indíca el éxito o error en la operación
-     * @estado 200 - La categoría ha sido activada
-     * @estado 404 - ID no encontrado
+     * @param id identificador de la categoría buscada
+     * @return Una respuesta que indíca el éxito en la operación
+     * @throws ApiException Al encontrar un error en el contenido de:
+     *                      El identificador de la categoría
      */
     public ApiResponse enable(Integer id) {
         try {
@@ -159,9 +121,10 @@ public class SvcCategoryImp implements SvcCategory {
     
     /**
      * Deshabilita una categoría
+     * @param id identificador de la categoría buscada
      * @return Una respuesta que indíca el éxito o error en la operación
-     * @estado 200 - La categoría ha sido desactivada
-     * @estado 404 - ID no encontrado
+     * @throws ApiException Al encontrar un error en el contenido de:
+     *                      El identificador de la categoría
      */
     public ApiResponse disable(Integer id) {
         try {
@@ -172,15 +135,14 @@ public class SvcCategoryImp implements SvcCategory {
             throw new DBAccessException(e);
         }
     }
-
+    
     /**
-     * Valida que el ID de la categoría exista
-     * @param id Identificador de la categoría a validar
-     * @throws ApiException si la categoría no existe
+     * Valida que el Identificador de la categoría exista
+     * @param id identificador de la categoría a validar
+     * @throws ApiException Si el identificador de la categoría no está registrado
      */
     private void validateCategoryId(Integer id) {
-        if (repo.findById(id).isEmpty()) {
+        if (repo.findById(id).isEmpty())
             throw new ApiException(HttpStatus.NOT_FOUND, "El id de la categoría no existe");
-        }
     }
 }
